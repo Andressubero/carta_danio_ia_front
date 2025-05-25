@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./userRegister.css";
+import { useEffect, useState } from "react";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Email inválido").required("Email requerido"),
@@ -13,18 +14,42 @@ const validationSchema = Yup.object({
 });
 
 const UserRegister = () => {
+  const [success, setSuccess] = useState()
+  const [message, setMessage] = useState("")
+
+  const handleSubmit = async (values, actions) => {
+    try {
+      const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
+      const response = await fetch(`${apiUrl}/user/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: values.email,
+          email: values.email,
+          password: values.password,
+        }),
+      });
+
+      const data = await response.json();
+      setSuccess(data.success)
+      setMessage(data.message)
+
+      if (data.success) actions.resetForm();
+    } catch (error) {
+      setSuccess(false);
+      setMessage("Error de conexión con el servidor")
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
+
   return (
     <>
       <h1>Registrate</h1>
       <Formik
         initialValues={{ email: "", password: "", confirmPassword: "" }}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          console.log("Datos enviados:", values);
-          actions.setSubmitting(false);
-          actions.resetForm();
-          alert("¡Registro exitoso!");
-        }}
+        onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
           <Form>
@@ -62,6 +87,10 @@ const UserRegister = () => {
           </Form>
         )}
       </Formik>
+
+       {message !== "" ? (
+        <p style={{ color: success ? "green" : "red", marginTop: "1rem" }}>{message}</p>
+      ): <></>}
     </>
   );
 };
