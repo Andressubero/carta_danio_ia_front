@@ -8,7 +8,7 @@ const Home = () => {
       <h1 className="home-logo">Carta de Daño IA</h1>
       <div className="home-buttons">
         <Link to={"/register"}><button className="home-button">Registrate</button></Link>
-        <button className="home-button login">Iniciar sesión</button>
+        <Link to={"/login"}><button  className="home-button login">Iniciar sesión</button></Link>
       </div>
     </div>
   );
