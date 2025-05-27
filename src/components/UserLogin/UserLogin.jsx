@@ -1,7 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import "./userLogin.css"; 
+import "./userLogin.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -13,12 +14,17 @@ const validationSchema = Yup.object({
 });
 
 const UserLogin = () => {
-  const [success, setSuccess] = useState();
+  const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (values, actions) => {
     try {
-      const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
+      const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL
+      if (!import.meta.env.VITE_RUTA_BACKEND_LOCAL) {
+        console.warn("Warning: VITE_RUTA_BACKEND_LOCAL is not defined. Using fallback URL.");
+      }
+
       const response = await fetch(`${apiUrl}/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -26,16 +32,24 @@ const UserLogin = () => {
           username: values.username,
           password: values.password,
         }),
+        credentials: "include", // Asegura que las cookies se envíen
       });
 
       const data = await response.json();
-      setSuccess(data.success);
-      setMessage(data.message);
 
-      if (data.success) actions.resetForm();
+      if (data.token) {
+        localStorage.setItem("token", data.token); 
+        setSuccess(true);
+        setMessage("Login exitoso.");
+        actions.resetForm();
+        navigate("/"); // ✅ redirección inmediata
+      } else {
+        setSuccess(false);
+        setMessage(data.message || "Error de autenticación.");
+      }
     } catch (error) {
       setSuccess(false);
-      setMessage("Error de conexión con el servidor");
+      setMessage("Error de conexión con el servidor.");
     } finally {
       actions.setSubmitting(false);
     }
@@ -51,16 +65,28 @@ const UserLogin = () => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <label>Nombre de usuario:</label>
-            <Field name="username" type="text" className="input-field" />
+            <label htmlFor="username">Nombre de usuario:</label>
+            <Field
+              id="username"
+              name="username"
+              type="text"
+              className="input-field"
+              autoComplete="username"
+            />
             <ErrorMessage
               name="username"
               component="div"
               className="error-text"
             />
 
-            <label>Contraseña:</label>
-            <Field name="password" type="password" className="input-field" />
+            <label htmlFor="password">Contraseña:</label>
+            <Field
+              id="password"
+              name="password"
+              type="password"
+              className="input-field"
+              autoComplete="current-password"
+            />
             <ErrorMessage
               name="password"
               component="div"
@@ -78,7 +104,7 @@ const UserLogin = () => {
         )}
       </Formik>
 
-      {message !== "" && (
+      {message && (
         <p
           style={{
             color: success ? "green" : "red",
