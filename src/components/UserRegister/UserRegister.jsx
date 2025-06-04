@@ -1,7 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./userRegister.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Email inválido").required("Email requerido"),
@@ -14,8 +15,9 @@ const validationSchema = Yup.object({
 });
 
 const UserRegister = () => {
-  const [success, setSuccess] = useState()
-  const [message, setMessage] = useState("")
+  const [success, setSuccess] = useState();
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (values, actions) => {
     try {
@@ -31,13 +33,13 @@ const UserRegister = () => {
       });
 
       const data = await response.json();
-      setSuccess(data.success)
-      setMessage(data.message)
+      setSuccess(data.success);
+      setMessage(data.message);
 
       if (data.success) actions.resetForm();
     } catch (error) {
       setSuccess(false);
-      setMessage("Error de conexión con el servidor")
+      setMessage("Error de conexión con el servidor");
     } finally {
       actions.setSubmitting(false);
     }
@@ -88,9 +90,17 @@ const UserRegister = () => {
         )}
       </Formik>
 
-       {message !== "" ? (
-        <p style={{ color: success ? "green" : "red", marginTop: "1rem" }}>{message}</p>
-      ): <></>}
+      {message !== "" ? (
+        <p style={{ color: success ? "green" : "red", marginTop: "1rem" }}>
+          {message}
+        </p>
+      ) : (
+        <></>
+      )}
+
+      <button className="ir-a-login" onClick={() => navigate("/login")}>
+        Ir a login
+      </button>
     </>
   );
 };
