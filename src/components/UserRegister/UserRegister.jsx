@@ -1,8 +1,13 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+<<<<<<< HEAD
 import "./userRegister.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+=======
+import '../../styles/authLayout.css';
+import { useEffect, useState } from "react";
+>>>>>>> 3561e4e (se agregaron estilos)
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Email inválido").required("Email requerido"),
@@ -46,50 +51,61 @@ const UserRegister = () => {
   };
 
   return (
-    <>
-      <h1>Registrate</h1>
-      <Formik
-        initialValues={{ email: "", password: "", confirmPassword: "" }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <label>Email:</label>
-            <Field name="email" type="email" className="input-field" />
-            <ErrorMessage name="email" component="div" className="error-text" />
+    <div className="login-container d-flex justify-content-center align-items-center">
+      <div className="login-card shadow">
+        <h2 className="text-center mb-4">Registrarse</h2>
+      
+        <Formik
+          initialValues={{ email: "", password: "", confirmPassword: "" }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email</label>
+                <Field name="email" type="email" className="form-control"/>
+                <ErrorMessage name="email" component="div" className="text-danger mt-1" />
+              </div>
 
-            <label>Contraseña:</label>
-            <Field name="password" type="password" className="input-field" />
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="error-text"
-            />
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">Contraseña:</label>
+                <Field name="password" type="password" className="form-control" />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-danger mt-1"
+                />
+              </div>
 
-            <label>Confirmar contraseña:</label>
-            <Field
-              name="confirmPassword"
-              type="password"
-              className="input-field"
-            />
-            <ErrorMessage
-              name="confirmPassword"
-              component="div"
-              className="error-text"
-            />
+              <div className="mb-3">
+                <label tmlFor="confirmPassword" className="form-label">Confirmar contraseña:</label>
+                <Field name="confirmPassword" type="password" className="form-control"/>
+                <ErrorMessage
+                  name="confirmPassword"
+                  component="div"
+                  className="text-danger mt-1"
+                />
+              </div>
 
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={isSubmitting}
-            >
-              Registrarse
-            </button>
-          </Form>
+              <button
+                type="submit"
+                className="btn btn-success w-100"
+                disabled={isSubmitting}
+              >
+                Registrarse
+              </button>
+            </Form>
+          )}
+        </Formik>
+
+        {message && (
+          <div className={`alert mt-3 ${success ? "alert-success" : "alert-danger"}`} role="alert">
+            {message}
+          </div>
         )}
-      </Formik>
 
+<<<<<<< HEAD
       {message !== "" ? (
         <p style={{ color: success ? "green" : "red", marginTop: "1rem" }}>
           {message}
@@ -102,6 +118,10 @@ const UserRegister = () => {
         Ir a login
       </button>
     </>
+=======
+      </div>
+    </div>
+>>>>>>> 3561e4e (se agregaron estilos)
   );
 };
 

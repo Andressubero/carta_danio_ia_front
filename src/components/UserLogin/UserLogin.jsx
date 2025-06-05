@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import "./userLogin.css";
+import '../../styles/authLayout.css';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -56,66 +56,79 @@ const UserLogin = () => {
   };
 
   return (
-    <>
-      <h1>Iniciar sesión</h1>
-      <Formik
-        initialValues={{ username: "", password: "" }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <label htmlFor="username">Nombre de usuario:</label>
-            <Field
-              id="username"
-              name="username"
-              type="text"
-              className="input-field"
-              autoComplete="username"
-            />
-            <ErrorMessage
-              name="username"
-              component="div"
-              className="error-text"
-            />
-
-            <label htmlFor="password">Contraseña:</label>
-            <Field
-              id="password"
-              name="password"
-              type="password"
-              className="input-field"
-              autoComplete="current-password"
-            />
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="error-text"
-            />
-
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={isSubmitting}
-            >
-              Ingresar
-            </button>
-          </Form>
-        )}
-      </Formik>
-
-      {message && (
-        <p
-          style={{
-            color: success ? "green" : "red",
-            marginTop: "1rem",
-          }}
+    <div className="login-container d-flex justify-content-center align-items-center">
+      <div className="login-card shadow">
+        <h2 className="text-center mb-4">Iniciar sesión</h2>
+        <Formik
+          initialValues={{ username: "", password: "" }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
         >
-          {message}
-        </p>
-      )}
-    </>
+          {({ isSubmitting }) => (
+            <Form>
+              <div className="mb-3">
+                <label htmlFor="username" className="form-label">
+                  Usuario
+                </label>
+                <Field
+                  id="username"
+                  name="username"
+                  type="text"
+                  className="form-control"
+                  autoComplete="username"
+                />
+                <ErrorMessage
+                  name="username"
+                  component="div"
+                  className="text-danger mt-1"
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">
+                  Contraseña
+                </label>
+                <Field
+                  id="password"
+                  name="password"
+                  type="password"
+                  className="form-control"
+                  autoComplete="current-password"
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-danger mt-1"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="btn btn-primary w-100"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Ingresando..." : "Ingresar"}
+              </button>
+            </Form>
+          )}
+        </Formik>
+
+        {message && (
+          <div
+            className={`alert mt-3 ${success ? "alert-success" : "alert-danger"}`}
+            role="alert"
+          >
+            {message}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
+<<<<<<< HEAD
 export default UserLogin;
+=======
+
+export default UserLogin;
+>>>>>>> 3561e4e (se agregaron estilos)
