@@ -28,7 +28,7 @@ const MyVehicles = () => {
     <div className="container d-flex flex-column align-items-center">
       <h1>Mis Vehículos</h1>
       {myVehicles.length === 0 ? (
-        <p>Aún no ha registrado ningun vehiculo</p>
+        <p className="bold-text">Aún no ha registrado ningun vehiculo</p>
       ) : (
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {myVehicles.map((v) => (
@@ -50,11 +50,11 @@ const MyVehicles = () => {
         </div>
       )}
 
-      <div className={{ display: "flex", gap: "16px" }}>
+      <div>
         <a className="a-navegar" onClick={() => navigate("/getall")}>
           Volver al menú
         </a>
-        <a className="a-navegar" onClick={() => navigate("/createVehicle")}>
+        <a className="a-navegar ms-5" onClick={() => navigate("/createVehicle")}>
           Registrar un nuevo vehículo
         </a>
       </div>

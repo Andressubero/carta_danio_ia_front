@@ -62,3 +62,9 @@ button.btn:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
+.bold-text {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 20px;
+}

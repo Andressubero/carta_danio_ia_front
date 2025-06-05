@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   flexRender,
-} from '@tanstack/react-table';
-import { getColumns } from './Columns';
-import TableHeader from './TableHeader';
-import { useNavigate } from 'react-router-dom';
-import './TableStyles.css';
-
+} from "@tanstack/react-table";
+import { getColumns } from "./Columns";
+import TableHeader from "./TableHeader";
+import { useNavigate } from "react-router-dom";
+import "./TableStyles.css";
 
 const VehicleStateTable = () => {
   const [data, setData] = useState([]);
@@ -23,13 +22,13 @@ const VehicleStateTable = () => {
     const fetchData = async () => {
       try {
         const res = await fetch(`${apiUrl}/vehicle-state/getall`, {
-          method: 'GET',
-          credentials: 'include',
+          method: "GET",
+          credentials: "include",
         });
         const json = await res.json();
         setData(json);
       } catch (error) {
-        console.error('Error al obtener datos:', error);
+        console.error("Error al obtener datos:", error);
       } finally {
         setIsLoading(false);
       }
@@ -68,14 +67,37 @@ const VehicleStateTable = () => {
         </table>
 
         <div className="mt-3 d-flex justify-content-between">
-          <button className="btn btn-primary" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+          <button
+            className="btn btn-primary"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
             Anterior
           </button>
           <span>
-            Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+            Página {table.getState().pagination.pageIndex + 1} de{" "}
+            {table.getPageCount()}
           </span>
-          <button className="btn btn-primary" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <button
+            className="btn btn-primary"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
             Siguiente
+          </button>
+        </div>
+        <div className="d-flex justify-content-around mt-5 ">
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/createVehicle")}
+          >
+            Registrar Un Vehículo
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/myVehicles")}
+          >
+            Mis Vehículos
           </button>
         </div>
       </div>
