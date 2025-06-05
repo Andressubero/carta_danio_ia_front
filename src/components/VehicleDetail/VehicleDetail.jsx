@@ -4,9 +4,15 @@ const VehicleDetail = () => {
   const { id } = useParams();
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Detalle del Vehículo</h2>
-      <p>ID del vehículo: <strong>{id}</strong></p>
+    <div className="login-container">
+      <div className="login-card">
+        <h2>Detalle del Vehículo</h2>
+        <p>Estás viendo el detalle del vehículo con ID:</p>
+        <div className="card mt-3">
+          <strong>{id}</strong>
+        </div>
+        <a href="/" className="a-navegar">Volver al listado</a>
+      </div>
     </div>
   );
 };

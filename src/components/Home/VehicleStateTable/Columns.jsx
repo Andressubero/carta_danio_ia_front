@@ -22,7 +22,7 @@ export const getColumns = (navigate) => [
   {
     header: 'Acción',
     cell: ({ row }) => (
-      <button onClick={() => navigate(`/vehicle/${row.original.vehicle_id}/`)}>
+      <button className="btn-view" onClick={() => navigate(`/vehicle/${row.original.vehicle_id}`)}>
         Ver Vehículo
       </button>
     ),
