@@ -1,13 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-<<<<<<< HEAD
-import "./userRegister.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-=======
 import '../../styles/authLayout.css';
-import { useEffect, useState } from "react";
->>>>>>> 3561e4e (se agregaron estilos)
+
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Email inválido").required("Email requerido"),
@@ -105,23 +101,9 @@ const UserRegister = () => {
           </div>
         )}
 
-<<<<<<< HEAD
-      {message !== "" ? (
-        <p style={{ color: success ? "green" : "red", marginTop: "1rem" }}>
-          {message}
-        </p>
-      ) : (
-        <></>
-      )}
 
-      <button className="ir-a-login" onClick={() => navigate("/login")}>
-        Ir a login
-      </button>
-    </>
-=======
       </div>
     </div>
->>>>>>> 3561e4e (se agregaron estilos)
   );
 };
 
