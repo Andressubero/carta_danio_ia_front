@@ -1,6 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import "./userRegister.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../styles/authLayout.css';
