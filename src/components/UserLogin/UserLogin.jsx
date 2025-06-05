@@ -1,117 +1,121 @@
-import {
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  flexRender,
-} from '@tanstack/react-table'
-import React, { useEffect, useMemo, useState } from 'react'
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import "./userLogin.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const VehicleStateTable = () => {
-  const [data, setData] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+const validationSchema = Yup.object({
+  username: Yup.string()
+    .min(3, "Mínimo 3 caracteres")
+    .required("Nombre de usuario requerido"),
+  password: Yup.string()
+    .min(6, "Mínimo 6 caracteres")
+    .required("Contraseña requerida"),
+});
 
-  const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL
-  if (!apiUrl) {
-    console.warn('Warning: VITE_RUTA_BACKEND_LOCAL is not defined. Usando fallback.')
-  }
+const UserLogin = () => {
+  const [success, setSuccess] = useState(null);
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate(); 
 
-useEffect(() => {
-  const fetchData = async () => {
+  const handleSubmit = async (values, actions) => {
     try {
-      const res = await fetch(`${apiUrl}/vehiclestate/getall`, {
-        method: 'GET',
-        credentials: 'include',
+      const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL
+      if (!import.meta.env.VITE_RUTA_BACKEND_LOCAL) {
+        console.warn("Warning: VITE_RUTA_BACKEND_LOCAL is not defined. Using fallback URL.");
+      }
+
+      const response = await fetch(`${apiUrl}/user/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: values.username,
+          password: values.password,
+        }),
+        credentials: "include", // Asegura que las cookies se envíen
       });
-      const json = await res.json();
-      setData(json);
-      setIsLoading(false);
+
+      const data = await response.json();
+
+      if (data.token) {
+        localStorage.setItem("token", data.token); 
+        setSuccess(true);
+        setMessage("Login exitoso.");
+        actions.resetForm();
+        navigate("/  "); // ✅ redirección inmediata
+      } else {
+        setSuccess(false);
+        setMessage(data.message || "Error de autenticación.");
+      }
     } catch (error) {
-      console.error('Error al obtener datos:', error);
-      setIsLoading(false);
+      setSuccess(false);
+      setMessage("Error de conexión con el servidor.");
+    } finally {
+      actions.setSubmitting(false);
     }
   };
 
-  fetchData();
-}, []);
-
-
-  const columns = useMemo(
-    () => [
-      {
-        header: 'ID',
-        accessorKey: 'id',
-      },
-      {
-        header: 'Vehículo',
-        accessorKey: 'vehicle_id',
-      },
-      {
-        header: 'Fecha de Creación',
-        accessorKey: 'creation_date',
-      },
-      {
-        header: 'Fecha Declarada',
-        accessorKey: 'declared_date',
-      },
-      {
-        header: 'Motivo de Validación',
-        accessorKey: 'validation_reasons',
-      },
-    ],
-    []
-  )
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-  })
-
-  if (isLoading) return <p>Cargando datos...</p>
-
   return (
-    <div>
-      <table border={1} cellPadding={10}>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {flexRender(header.column.columnDef.header, header.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell ?? cell.column.columnDef.accessorKey, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <>
+      <h1>Iniciar sesión</h1>
+      <Formik
+        initialValues={{ username: "", password: "" }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <label htmlFor="username">Nombre de usuario:</label>
+            <Field
+              id="username"
+              name="username"
+              type="text"
+              className="input-field"
+              autoComplete="username"
+            />
+            <ErrorMessage
+              name="username"
+              component="div"
+              className="error-text"
+            />
 
-      <div style={{ marginTop: '1rem' }}>
-        <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-          Anterior
-        </button>
-        <span style={{ margin: '0 1rem' }}>
-          Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
-        </span>
-        <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-          Siguiente
-        </button>
-      </div>
-    </div>
-  )
-}
+            <label htmlFor="password">Contraseña:</label>
+            <Field
+              id="password"
+              name="password"
+              type="password"
+              className="input-field"
+              autoComplete="current-password"
+            />
+            <ErrorMessage
+              name="password"
+              component="div"
+              className="error-text"
+            />
 
-export default VehicleStateTable
+            <button
+              type="submit"
+              className="submit-button"
+              disabled={isSubmitting}
+            >
+              Ingresar
+            </button>
+          </Form>
+        )}
+      </Formik>
+
+      {message && (
+        <p
+          style={{
+            color: success ? "green" : "red",
+            marginTop: "1rem",
+          }}
+        >
+          {message}
+        </p>
+      )}
+    </>
+  );
+};
+
+export default UserLogin;

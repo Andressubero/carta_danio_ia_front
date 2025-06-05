@@ -6,12 +6,14 @@ import {
   getSortedRowModel,
   flexRender,
 } from '@tanstack/react-table';
-import { columns } from './Columns';
+import { getColumns } from './Columns';
 import TableHeader from './TableHeader';
+import { useNavigate } from 'react-router-dom';
 
 const VehicleStateTable = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
 
@@ -36,7 +38,7 @@ const VehicleStateTable = () => {
 
   const table = useReactTable({
     data,
-    columns,
+    columns: getColumns(navigate), // usamos función que recibe navigate
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
