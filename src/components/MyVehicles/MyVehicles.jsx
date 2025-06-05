@@ -30,10 +30,10 @@ const MyVehicles = () => {
       {myVehicles.length === 0 ? (
         <p className="bold-text">Aún no ha registrado ningun vehiculo</p>
       ) : (
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div className="row g-4">
           {myVehicles.map((v) => (
             <div className="col" key={v.id}>
-              <div className="card h-100 shadow-sm">
+              <div className="card 100 shadow-sm">
                 <div className="card-body">
                   <h5 className="card-title">
                     {v.brand} {v.model}
