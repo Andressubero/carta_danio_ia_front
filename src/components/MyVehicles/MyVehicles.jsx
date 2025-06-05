@@ -54,8 +54,8 @@ const MyVehicles = () => {
         <a className="a-navegar" onClick={() => navigate("/getall")}>
           Volver al menú
         </a>
-        <a className="a-navegar ms-5" onClick={() => navigate("/createVehicle")}>
-          Registrar un nuevo vehículo
+        <a className="a-navegar" onClick={() => navigate("/createVehicle")}>
+          Nuevo vehículo
         </a>
       </div>
     </div>

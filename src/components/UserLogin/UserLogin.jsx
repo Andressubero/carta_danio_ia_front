@@ -42,7 +42,7 @@ const UserLogin = () => {
         setSuccess(true);
         setMessage("Login exitoso.");
         actions.resetForm();
-        navigate("/myVehicles");
+        navigate("/getall");
       } else {
         setSuccess(false);
         setMessage(data.message || "Error de autenticación.");
