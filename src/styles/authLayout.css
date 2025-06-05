@@ -1,0 +1,52 @@
+/* Fondo general */
+.login-container {
+  min-height: 100vh;
+  background-image: url(https://www.bdtglobal.com/img/bg-home.jpg) ;
+  padding: 0px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Tarjeta del formulario */
+.login-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.logo-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 25px auto;
+}
+
+/* Ajuste del botón */
+button.btn {
+  font-weight: bold;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+  background-color: rgb(80, 70, 223);
+}
+
+button.btn:hover {
+  background-color: rgb(73, 66, 170);
+  color: white;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.a-navegar {
+  display: inline-block;
+  font-weight: bold;
+  margin-top: 15px;
+  color: rgb(80, 70, 223);
+  text-decoration: none;
+  cursor: pointer;
+}
