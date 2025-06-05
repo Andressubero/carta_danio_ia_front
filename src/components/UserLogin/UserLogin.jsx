@@ -121,6 +121,10 @@ const UserLogin = () => {
             {message}
           </div>
         )}
+
+      <a className="a-navegar" onClick={() => navigate("/")}>
+          Volver
+      </a>
       </div>
     </div>
   );

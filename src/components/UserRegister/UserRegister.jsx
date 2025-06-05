@@ -109,9 +109,9 @@ const UserRegister = () => {
         <></>
       )}
 
-      <button className="ir-a-login" onClick={() => navigate("/login")}>
-        Ir a login
-      </button>
+      <a className="a-navegar" onClick={() => navigate("/")}>
+        Volver
+      </a>
       </div>
     </div>
   );

@@ -18,6 +18,13 @@
   width: 100%;
 }
 
+.logo-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 25px auto;
+}
+
 /* Ajuste del botón */
 button.btn {
   font-weight: bold;
@@ -29,4 +36,17 @@ button.btn {
 button.btn:hover {
   background-color: rgb(73, 66, 170);
   color: white;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.a-navegar {
+  display: inline-block;
+  font-weight: bold;
+  margin-top: 15px;
+  color: rgb(80, 70, 223);
+  text-decoration: none;
+  cursor: pointer;
 }
