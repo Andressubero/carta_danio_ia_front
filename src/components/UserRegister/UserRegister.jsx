@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../styles/authLayout.css';
 
+
 const validationSchema = Yup.object({
   email: Yup.string().email("Email inválido").required("Email requerido"),
   password: Yup.string()
