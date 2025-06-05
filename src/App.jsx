@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import UserRegister from './components/UserRegister/UserRegister'
 import UserLogin from './components/UserLogin/UserLogin'
 import VehicleStateTable from './components/Home/VehicleStateTable/VechicleStateTable'
+import CreateVehicle from './components/CreateVehicle/CreateVehicle'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/register" element={<UserRegister/>} />
         <Route path="/login" element={<UserLogin/>} />
         <Route path="/getall" element={<VehicleStateTable/>} />
+        <Route path="/createVehicle" element={<CreateVehicle/>} />
       </Routes>
   )
 }
