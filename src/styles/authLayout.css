@@ -9,6 +9,15 @@
   align-items: center;
 }
 
+.container {
+  min-height: 100vh;
+  padding: 0px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Tarjeta del formulario */
 .login-card {
   background-color: white;
@@ -31,10 +40,12 @@ button.btn {
   padding: 10px 20px;
   transition: background-color 0.3s ease;
   background-color: rgb(80, 70, 223);
+  border-color: transparent;
 }
 
 button.btn:hover {
   background-color: rgb(73, 66, 170);
+  border-color: transparent;
   color: white;
 }
 
@@ -47,6 +58,7 @@ button.btn:hover {
   font-weight: bold;
   margin-top: 15px;
   color: rgb(80, 70, 223);
+  padding: 10px;
   text-decoration: none;
   cursor: pointer;
 }

@@ -1,20 +1,22 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import "../UserLogin/UserLogin.css";
+import "../../styles/authLayout.css";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const validationSchema = Yup.object({
-  vehicle_type_id: Yup.string().required("Nombre de usuario requerido"),
+  vehicle_type_id: Yup.string().required("Tipo de vehiculo requerido"),
   brand: Yup.string().required("Marca requerida"),
   model: Yup.string().required("Modelo requerido"),
   year: Yup.string().required("Año requerido"),
-  plate: Yup.string().required("Patente requerida"),
+  plate: Yup.string().min(6, "Mínimo 6 caracteres").max(7, "Máximo 7 caracteres").required("Patente requerida"),
 });
 
 const CreateVehicle = () => {
   const [vehicleTypes, setVehicleTypes] = useState([]);
   const [success, setSuccess] = useState();
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
 
   useEffect(() => {
@@ -63,90 +65,137 @@ const CreateVehicle = () => {
   };
 
   return (
-    <>
-      <h1>Agregá un nuevo vehiculo</h1>
-      <Formik
-        initialValues={{
-          vehicle_type_id: "",
-          brand: "",
-          model: "",
-          year: "",
-          plate: "",
-        }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <label htmlFor="vehicle_type_id">Tipo de vehículo:</label>
-            <Field as="select" name="vehicle_type_id" className="input-field">
-              <option value="" disabled hidden></option>
-              {vehicleTypes.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {type.name}
-                </option>
-              ))}
-            </Field>
-            <ErrorMessage
-              name="vehicle_type_id"
-              component="div"
-              className="error-text"
-            />
-            <label htmlFor="brand">Marca:</label>
-            <Field
-              id="brand"
-              name="brand"
-              type="text"
-              className="input-field"
-            />
-            <ErrorMessage name="brand" component="div" className="error-text" />
+    <div className="container d-flex justify-content-center align-items-center">
+      <div className="login-card text-center shadow">
+        <h1>Agregá un nuevo vehiculo</h1>
+        <Formik
+          initialValues={{
+            vehicle_type_id: "",
+            brand: "",
+            model: "",
+            year: "",
+            plate: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <div className="mb-3">
+                <label htmlFor="vehicle_type_id" className="form-label">
+                  Tipo de vehículo:
+                </label>
+                <Field
+                  as="select"
+                  name="vehicle_type_id"
+                  className="form-control"
+                >
+                  <option value="" disabled hidden></option>
+                  {vehicleTypes.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      {type.name}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage
+                  name="vehicle_type_id"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="brand" className="form-label">
+                  Marca:
+                </label>
+                <Field
+                  id="brand"
+                  name="brand"
+                  type="text"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="brand"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="model" className="form-label">
+                  Modelo:
+                </label>
+                <Field
+                  id="model"
+                  name="model"
+                  type="text"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="model"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="year" className="form-label">
+                  Año:
+                </label>
+                <Field
+                  id="year"
+                  name="year"
+                  type="number"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="year"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="plate" className="form-label">
+                  Patente:
+                </label>
+                <Field
+                  id="plate"
+                  name="plate"
+                  type="text"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="plate"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-success w-100"
+                disabled={isSubmitting}
+              >
+                Registrar Vehículo
+              </button>
+            </Form>
+          )}
+        </Formik>
 
-            <label htmlFor="model">Modelo:</label>
-            <Field
-              id="model"
-              name="model"
-              type="text"
-              className="input-field"
-            />
-            <ErrorMessage name="model" component="div" className="error-text" />
-
-            <label htmlFor="year">Año:</label>
-            <Field
-              id="year"
-              name="year"
-              type="number"
-              className="input-field"
-            />
-            <ErrorMessage name="year" component="div" className="error-text" />
-
-            <label htmlFor="plate">Patente:</label>
-            <Field
-              id="plate"
-              name="plate"
-              type="text"
-              className="input-field"
-            />
-            <ErrorMessage name="plate" component="div" className="error-text" />
-
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={isSubmitting}
-            >
-              Registrar Vehículo
-            </button>
-          </Form>
+        {message !== "" ? (
+          <p style={{ color: success ? "green" : "red", marginTop: "1rem" }}>
+            {message}
+          </p>
+        ) : (
+          <></>
         )}
-      </Formik>
+        <div className={{ display: 'flex', gap: '16px' }}>
+          <a className="a-navegar" onClick={() => navigate("/getall")}>
+            Volver al menú
+          </a>
 
-      {message !== "" ? (
-        <p style={{ color: success ? "green" : "red", marginTop: "1rem" }}>
-          {message}
-        </p>
-      ) : (
-        <></>
-      )}
-    </>
+          <a className="a-navegar" onClick={() => navigate("/myVehicles")}>
+            Ir a Mis Vehículos
+          </a>
+        </div>
+      </div>
+    </div>
   );
 };
 
