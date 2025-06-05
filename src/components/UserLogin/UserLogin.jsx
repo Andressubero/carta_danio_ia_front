@@ -126,9 +126,4 @@ const UserLogin = () => {
   );
 };
 
-<<<<<<< HEAD
 export default UserLogin;
-=======
-
-export default UserLogin;
->>>>>>> 3561e4e (se agregaron estilos)
