@@ -97,7 +97,7 @@ const puntos = [
   },
   {
     "id": "Retrovisor derecho",
-    "top": "10.6%",
+    "top": "64.6%",
     "left": "68.4%"
   },
   {
@@ -152,7 +152,7 @@ const puntos = [
   },
   {
     "id": "Retrovisor izquierdo",
-    "top": "10.6%",
+    "top": "64.6%",
     "left": "30.2%"
   }
 ];
