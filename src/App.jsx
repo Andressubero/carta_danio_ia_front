@@ -7,10 +7,12 @@ import VehicleStateTable from './components/Home/VehicleStateTable/VechicleState
 import CreateVehicle from './components/CreateVehicle/CreateVehicle'
 import MyVehicles from './components/MyVehicles/MyVehicles'
 import VehicleDetail from './components/VehicleDetail/VehicleDetail'
+import DamageForm from './components/VehiclestateForm/VehiclestateForm'
+import DamageEditor from './components/VehiclestateForm/DamageEditor'
 
 function App() {
   return (
-      <Routes>
+      /*<Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/register" element={<UserRegister/>} />
         <Route path="/login" element={<UserLogin/>} />
@@ -19,6 +21,9 @@ function App() {
         <Route path="/myVehicles" element={<MyVehicles/>}/>
         <Route path="/vehicle/:id" element={<VehicleDetail />} />
       </Routes>
+      */
+      <DamageForm/>
+      //<DamageEditor/>
   )
 }
 
