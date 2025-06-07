@@ -1,13 +1,19 @@
 /* Fondo general */
 .login-container {
   min-height: 100vh;
-  background-image: url(https://www.bdtglobal.com/img/bg-home.jpg) ;
-  padding: 0px;
-  margin: 0;
+  width: 100%;
+  background-image: url('https://www.bdtglobal.com/img/bg-home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
+
 
 .container {
   min-height: 100vh;
@@ -27,7 +33,7 @@
   width: 100%;
 }
 
-.logo-img {
+.logobdt {
   width: 100%;
   height: auto;
   display: block;

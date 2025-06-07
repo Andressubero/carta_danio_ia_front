@@ -20,31 +20,35 @@ const UserRegister = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (values, actions) => {
-    try {
-      const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
-      const response = await fetch(`${apiUrl}/user/create`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: values.email,
-          email: values.email,
-          password: values.password,
-        }),
-      });
+const handleSubmit = async (values, actions) => {
+  try {
+    const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
+    const response = await fetch(`${apiUrl}/user/create`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: values.email,
+        email: values.email,
+        password: values.password,
+      }),
+    });
 
-      const data = await response.json();
-      setSuccess(data.success);
-      setMessage(data.message);
+    const data = await response.json();
+    setSuccess(data.success);
+    setMessage(data.message);
 
-      if (data.success) actions.resetForm();
-    } catch (error) {
-      setSuccess(false);
-      setMessage("Error de conexión con el servidor");
-    } finally {
-      actions.setSubmitting(false);
+    if (data.success) {
+      actions.resetForm();
+      navigate("/login");
     }
-  };
+  } catch (error) {
+    setSuccess(false);
+    setMessage("Error de conexión con el servidor");
+  } finally {
+    actions.setSubmitting(false);
+  }
+};
+
 
   return (
     <div className="login-container d-flex justify-content-center align-items-center">

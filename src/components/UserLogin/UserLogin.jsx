@@ -14,46 +14,36 @@ const validationSchema = Yup.object({
 });
 
 const UserLogin = () => {
-  const [success, setSuccess] = useState(null);
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate(); 
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (values, actions) => {
-    try {
-      const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL
-      if (!import.meta.env.VITE_RUTA_BACKEND_LOCAL) {
-        console.warn("Warning: VITE_RUTA_BACKEND_LOCAL is not defined. Using fallback URL.");
-      }
+const handleSubmit = async (values, actions) => {
+  setError(""); // Limpia error anterior
+  try {
+    const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL || "";
+    const response = await fetch(`${apiUrl}/user/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+      credentials: "include",  // <- ¡IMPORTANTE!
+    });
 
-      const response = await fetch(`${apiUrl}/user/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-        }),
-        credentials: "include", // Asegura que las cookies se envíen
-      });
+    const data = await response.json();
+    console.log('Respuesta del backend:', data);
 
-      const data = await response.json();
-
-      if (data.token) {
-        localStorage.setItem("token", data.token); 
-        setSuccess(true);
-        setMessage("Login exitoso.");
-        actions.resetForm();
-        navigate("/myVehicles");
-      } else {
-        setSuccess(false);
-        setMessage(data.message || "Error de autenticación.");
-      }
-    } catch (error) {
-      setSuccess(false);
-      setMessage("Error de conexión con el servidor.");
-    } finally {
-      actions.setSubmitting(false);
+    if (response.ok && data.message === "Login satisfactorio") {
+      actions.resetForm();
+      navigate("/home", { replace: true });
+    } else {
+      setError(data.message || "Error de autenticación.");
     }
-  };
+  } catch (error) {
+    setError("Error de conexión con el servidor.");
+  } finally {
+    actions.setSubmitting(false);
+  }
+};
+
 
   return (
     <div className="login-container d-flex justify-content-center align-items-center">
@@ -113,18 +103,16 @@ const UserLogin = () => {
           )}
         </Formik>
 
-        {message && (
-          <div
-            className={`alert mt-3 ${success ? "alert-success" : "alert-danger"}`}
-            role="alert"
-          >
-            {message}
+        {/* Solo muestra error si existe */}
+        {error && (
+          <div className="alert alert-danger mt-3" role="alert">
+            {error}
           </div>
         )}
 
-      <a className="a-navegar" onClick={() => navigate("/")}>
+        <a className="a-navegar" onClick={() => navigate("/home")}>
           Volver
-      </a>
+        </a>
       </div>
     </div>
   );
