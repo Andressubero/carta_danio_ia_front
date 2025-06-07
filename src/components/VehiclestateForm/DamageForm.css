@@ -1,71 +1,188 @@
-/* DamageForm.css */
-
-/* -------- CONTENEDOR GENERAL ---------- */
 .damage-form {
-  position: relative;
   width: 100%;
-  max-width: 400px;       /* Puedes ajustar este max-width si quieres otro tamaño */
-  margin: 20px auto;
+  max-width: 500px;
+  margin: 30px auto;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
 }
 
-/* -------- IMAGEN + PUNTOS ------------ */
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+input[type="text"],
+select,
+input[type="file"] {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
 .image-container {
   position: relative;
-  display: inline-block;  /* Deja que tome exactamente el tamaño de la imagen */
+  display: inline-block;
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
 }
 
 .car-image {
-  display: block;
-  width: 100%;   /* La imagen ocupa el 100% del ancho del contenedor */
-  height: auto;  /* Altura proporcional */
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
 }
 
-/* cada punto es un botón para accesibilidad */
 .marker {
-  width: 12px;
+  all: unset; /* 🔥 borra todos los estilos por defecto del botón */
+  width: 15px;
   height: 12px;
-  background-color: red;
-  border: 2px solid white;
+  background-color: #e74c3c;
+  border: 1px solid white;
   border-radius: 50%;
   position: absolute;
   transform: translate(-50%, -50%);
   z-index: 10;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
+
 
 .marker:hover {
-  transform: translate(-50%, -50%) scale(1.2);
+  transform: translate(-50%, -50%) scale(1.4);
 }
 
-.marker.active {
-  box-shadow: 0 0 0 3px #ff5a5a inset, 0 0 6px #ff5a5a;
+.marker.selected {
+  background-color: #3498db;
+  box-shadow: 0 0 0 2px #3498db77;
 }
 
-/* -------- RESULTADOS ----------------- */
-.result {
-  background: #f7f7f7;
+.damage-popup {
+  position: absolute;
+  background: white;
+  padding: 12px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  z-index: 99;
+  width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.damage-popup h4 {
+  margin-top: 0;
+  font-size: 0.95rem;
+}
+
+.damage-popup label {
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 6px;
+}
+
+.damage-popup select,
+.damage-popup input[type="text"] {
+  width: 100%;
+  font-size: 0.8rem;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.json-preview {
   margin-top: 20px;
-}
-
-.result h4 {
-  margin: 0 0 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.result ul {
-  margin: 0;
-  padding-left: 1.2rem;
-}
-
-.result li {
   font-size: 0.9rem;
-  line-height: 1.35;
+}
+
+.json-preview textarea {
+  width: 100%;
+  height: 200px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  color: #333;
+  resize: none;
+}
+
+.image-preview {
+  margin-top: 8px;
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+.label-with-tooltip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-weight: 600;
+  position: relative;
+}
+
+.info-icon {
+  font-size: 0.85rem;
+  cursor: pointer;
+  position: relative;
+  color: #555;
+}
+
+.tooltip-image {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  padding: 6px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  width: 220px;
+  z-index: 100;
+  display: none;
+}
+
+.info-icon:hover .tooltip-image {
+  display: block;
+}
+
+.tooltip-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
