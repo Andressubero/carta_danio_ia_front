@@ -86,7 +86,8 @@ const VehicleStateTable = () => {
             Siguiente
           </button>
         </div>
-        <div className="d-flex justify-content-around mt-5 ">
+
+        <div className="d-flex justify-content-around mt-5">
           <button
             className="btn btn-primary"
             onClick={() => navigate("/createVehicle")}

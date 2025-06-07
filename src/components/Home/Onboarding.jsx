@@ -2,7 +2,7 @@ import '../../styles/authLayout.css';
 import { Link } from 'react-router-dom';
 import Logo from '../../images/logobdt.png'
 
-const Home = () => {
+const Onboarding = () => {
   return (
     <div className="login-container d-flex justify-content-center align-items-center">
       <div className="login-card text-center shadow">
@@ -22,4 +22,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Onboarding;
