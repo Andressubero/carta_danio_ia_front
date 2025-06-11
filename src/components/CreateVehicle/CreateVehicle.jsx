@@ -42,6 +42,7 @@ const CreateVehicle = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
+        withCredentials: true,
         body: JSON.stringify({
           vehicle_type_id: values.vehicle_type_id,
           brand: values.brand,

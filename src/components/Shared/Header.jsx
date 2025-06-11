@@ -1,18 +1,41 @@
-// src/components/shared/Header.jsx
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import LogoutButton from '../UserLogout/LogoutButton'; // Creá este componente como lo armamos antes
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import LogoutButton from '../UserLogout/LogoutButton';
 import './Layout.css';
+const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
 
-const Header = ({ username = "Usuario" }) => {
+const ADMIN_ROLE_ID = 'b756cc08-b981-4183-9c81-2246937485a2';
+
+const Header = () => {
   const [open, setOpen] = useState(false);
+  const [username, setUsername] = useState('Usuario');
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // Cierra el menú al hacer click fuera
-  React.useEffect(() => {
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/user/me`, {
+          method: "GET",
+          credentials: "include",
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setUsername(data.username || 'Usuario');
+          setIsAdmin(data.role_id === ADMIN_ROLE_ID);
+        }
+      } catch (error) {
+        console.error("Error al obtener el usuario:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
-    function handler(e) {
+    const handler = (e) => {
       if (!e.target.closest('.user-menu')) setOpen(false);
-    }
+    };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, [open]);
@@ -26,17 +49,21 @@ const Header = ({ username = "Usuario" }) => {
         <nav className="nav-links">
           <Link to="/">Inicio</Link>
           <Link to="/register">Registro</Link>
-          <Link to="/vehiclestate/getall">Estados</Link>
+          {isAdmin && <Link to="/vehiclestate/getall">Estados</Link>}
         </nav>
-        {/* Menú de usuario */}
         <div className="user-menu" style={{ position: 'relative', marginLeft: '16px' }}>
           <button
             className="user-btn"
             onClick={() => setOpen(!open)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500 }}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontWeight: 500
+            }}
           >
             <span role="img" aria-label="user" style={{ marginRight: 6 }}>👤</span>
-            {username}
+            {isAdmin ? `${username} (admin)` : username}
           </button>
           {open && (
             <div
