@@ -262,4 +262,6 @@ const exampleImg = `/src/images/sedan_photos_example/${exampleMap[sideKey]}`;
   );
 };
 
+// Cuando se envia la imagen se tiene que mandar con el nombre del lado correspondiente
+
 export default VehicleStateForm;
