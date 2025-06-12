@@ -56,7 +56,10 @@ const CreateVehicle = () => {
       setSuccess(data.success);
       setMessage(data.message);
 
-      if (data.success) actions.resetForm();
+      if (data.success) {
+        actions.resetForm();
+        navigate(`/vehiclestate/create/${data.vehicle.id}`);
+      }
     } catch (error) {
       setSuccess(false);
       setMessage("Error de conexión con el servidor");

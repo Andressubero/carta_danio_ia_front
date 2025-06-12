@@ -16,7 +16,7 @@ function App() {
       <Route element={<MainLayout />}>
 
         <Route path="/home" element={<VehicleStateTable />} />
-        <Route path="/vehiclestate/create" element={<VehicleStateForm />} />
+        <Route path="/vehicle-state/create/:id" element={<VehicleStateForm />} />
         <Route path="/createVehicle" element={<CreateVehicle />} />
         <Route path="/myVehicles" element={<MyVehicles />} />
         <Route path="/vehicle/:id" element={<VehicleDetail />} />
