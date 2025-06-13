@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { FaCarSide, FaRobot, FaInfo } from "react-icons/fa";
 import {
@@ -14,6 +15,7 @@ import "./TableStyles.css";
 import { ModalComponent } from "./Modal";
 import AIReport from "./AIReport";
 import VehicleStateSummary from "./VehicleStateSummary";
+import { useUser } from "../../../context/useUser";
 
 const VehicleStateTable = () => {
   const [data, setData] = useState([]);
@@ -22,21 +24,26 @@ const VehicleStateTable = () => {
   const [vehicleStateIdForDetail, setVehicleStateIdForDetail] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { user } = useUser()
 
   const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
   const addActions = (row) => {
+    const report = {
+        icon: () =>  <FaRobot style={{ fontSize: 30, color: '#b5b5c3', cursor: 'pointer' }} onClick={() => { setVehicleStateIdForReport(row.id); setIsOpen(true)}} />
+    }
+    const stateDetail = {
+        icon: () => <FaInfo style={{ fontSize: 30, color: '#b5b5c3', cursor: 'pointer' }} onClick={() => {setVehicleStateIdForDetail(row.id); setIsOpen(true)}} />
+    }
     row.actions = [
       {
         icon: () => <FaCarSide style={{ fontSize: 30, color: '#b5b5c3', cursor: 'pointer' }} onClick={() => navigate(`/vehicle/${row.vehicle_id}`)} />
 
-      },
-      {
-        icon: () =>  <FaRobot style={{ fontSize: 30, color: '#b5b5c3', cursor: 'pointer' }} onClick={() => { setVehicleStateIdForReport(row.id); setIsOpen(true)}} />
-      },
-      {
-        icon: () => <FaInfo style={{ fontSize: 30, color: '#b5b5c3', cursor: 'pointer' }} onClick={() => {setVehicleStateIdForDetail(row.id); setIsOpen(true)}} />
       }
     ]
+    if (user.role === 'admin') {
+      row.actions.push(report),
+      row.actions.push(stateDetail)
+    }
     return row;
   }
   useEffect(() => {
