@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import '../../styles/authLayout.css';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config";
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -20,7 +21,7 @@ const UserLogin = () => {
 const handleSubmit = async (values, actions) => {
   setError(""); // Limpia error anterior
   try {
-    const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL || "";
+    const apiUrl = API_URL;
     const response = await fetch(`${apiUrl}/user/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -38,7 +39,7 @@ const handleSubmit = async (values, actions) => {
       setError(data.message || "Error de autenticación.");
     }
   } catch (error) {
-    setError("Error de conexión con el servidor.");
+    setError(error.message);
   } finally {
     actions.setSubmitting(false);
   }
@@ -110,7 +111,7 @@ const handleSubmit = async (values, actions) => {
           </div>
         )}
 
-        <a className="a-navegar" onClick={() => navigate("/home")}>
+        <a className="a-navegar" onClick={() => navigate("/")}>
           Volver
         </a>
       </div>
