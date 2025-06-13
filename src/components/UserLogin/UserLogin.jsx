@@ -4,6 +4,7 @@ import '../../styles/authLayout.css';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../config";
+import { useUser } from "../../context/useUser";
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -17,7 +18,7 @@ const validationSchema = Yup.object({
 const UserLogin = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const { getUserData } = useUser()
 const handleSubmit = async (values, actions) => {
   setError(""); // Limpia error anterior
   try {
@@ -30,9 +31,9 @@ const handleSubmit = async (values, actions) => {
     });
 
     const data = await response.json();
-    console.log('Respuesta del backend:', data);
 
-    if (response.ok && data.message === "Login satisfactorio") {
+    if (response.ok && response.status === 200) {
+      await getUserData()
       actions.resetForm();
       navigate("/home", { replace: true });
     } else {

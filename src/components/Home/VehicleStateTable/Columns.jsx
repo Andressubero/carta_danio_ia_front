@@ -1,30 +1,39 @@
-export const getColumns = (navigate) => [
+import { Fragment } from "react/jsx-runtime";
+import { errors } from "../../../constants/errors";
+
+// eslint-disable-next-line no-unused-vars
+const getErrorMessage = (vr) => {
+  if (!vr) {
+    return 'Error no encontrado'
+  }
+  const e = vr.split(',').map((vr)=> errors.find((e)=> vr.includes(e.codigo))?.mensaje)
+  console.log(e)
+  return e.concat(' ')
+}
+export const getColumns = () => [
   {
-    header: 'ID',
-    accessorKey: 'id',
+    header: 'Marca',
+    accessorKey: 'vehicle_brand',
+  },
+    {
+    header: 'Modelo',
+    accessorKey: 'vehicle_model',
   },
   {
-    header: 'Vehículo',
-    accessorKey: 'vehicle_id',
-  },
-  {
-    header: 'Fecha de Creación',
+    header: 'Fecha',
     accessorKey: 'creation_date',
   },
   {
-    header: 'Fecha Declarada',
-    accessorKey: 'declared_date',
-  },
-  {
-    header: 'Motivo de Validación',
+    header: 'Estado',
+    cell: (info) => info.row.original.validation_state,
     accessorKey: 'validation_reasons',
   },
   {
     header: 'Acción',
     cell: ({ row }) => (
-      <button className="btn-view" onClick={() => navigate(`/vehicle/${row.original.vehicle_id}`)}>
-        Ver Vehículo
-      </button>
+      <span style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {row.original.actions.map((a, i)=> <Fragment  key={`action-${row.original.id}-${i}`}>{a.icon()}</Fragment>)}
+      </span>
     ),
   },
 ];

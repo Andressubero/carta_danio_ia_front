@@ -17,6 +17,10 @@ export function UserProvider({ children }) {
         method: "GET",
         credentials: "include",
       });
+        if (res.status !== 200) {
+        // Manejar errores como 403, 401, etc.
+        throw new Error(`HTTP error! status: ${res.status}`);
+        }
       const json = await res.json();
       setUser(json);
     } catch (e) {
@@ -33,7 +37,7 @@ export function UserProvider({ children }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, getUser, clearUser, loading }}>
+    <UserContext.Provider value={{ user, setUser, getUser, clearUser, loading, getUserData }}>
       {children}
     </UserContext.Provider>
   );
