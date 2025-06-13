@@ -11,7 +11,7 @@ const VehicleDetail = () => {
         <div className="card mt-3">
           <strong>{id}</strong>
         </div>
-        <a href="/" className="a-navegar">Volver al listado</a>
+        <a href="/home" className="a-navegar">Volver al listado</a>
       </div>
     </div>
   );

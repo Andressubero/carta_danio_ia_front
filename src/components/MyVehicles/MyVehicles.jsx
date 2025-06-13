@@ -17,7 +17,7 @@ const MyVehicles = () => {
         const data = await response.json();
         setMyVehicles(data);
       } catch (error) {
-        console.log("Error de conexión con el servidor.");
+        console.error(error.message);
       }
     };
 
@@ -51,7 +51,7 @@ const MyVehicles = () => {
       )}
 
       <div>
-        <a className="a-navegar" onClick={() => navigate("/getall")}>
+        <a className="a-navegar" onClick={() => navigate("/home")}>
           Volver al menú
         </a>
         <a className="a-navegar" onClick={() => navigate("/createVehicle")}>

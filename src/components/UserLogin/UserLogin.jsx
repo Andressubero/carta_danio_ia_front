@@ -3,6 +3,8 @@ import * as Yup from "yup";
 import '../../styles/authLayout.css';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config";
+import { useUser } from "../../context/useUser";
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -16,11 +18,11 @@ const validationSchema = Yup.object({
 const UserLogin = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const { getUserData } = useUser()
 const handleSubmit = async (values, actions) => {
   setError(""); // Limpia error anterior
   try {
-    const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL || "";
+    const apiUrl = API_URL;
     const response = await fetch(`${apiUrl}/user/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -29,16 +31,16 @@ const handleSubmit = async (values, actions) => {
     });
 
     const data = await response.json();
-    console.log('Respuesta del backend:', data);
 
-    if (response.ok && data.message === "Login satisfactorio") {
+    if (response.ok && response.status === 200) {
+      await getUserData()
       actions.resetForm();
       navigate("/home", { replace: true });
     } else {
       setError(data.message || "Error de autenticación.");
     }
   } catch (error) {
-    setError("Error de conexión con el servidor.");
+    setError(error.message);
   } finally {
     actions.setSubmitting(false);
   }
@@ -110,7 +112,7 @@ const handleSubmit = async (values, actions) => {
           </div>
         )}
 
-        <a className="a-navegar" onClick={() => navigate("/home")}>
+        <a className="a-navegar" onClick={() => navigate("/")}>
           Volver
         </a>
       </div>

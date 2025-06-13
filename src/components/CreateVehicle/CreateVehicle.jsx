@@ -29,7 +29,7 @@ const CreateVehicle = () => {
         const data = await response.json();
         setVehicleTypes(data.vehicle_types);
       } catch (error) {
-        console.log("Error de conexión con el servidor.");
+        console.log(error.message);
       }
     };
 
@@ -58,7 +58,7 @@ const CreateVehicle = () => {
       if (data.success) actions.resetForm();
     } catch (error) {
       setSuccess(false);
-      setMessage("Error de conexión con el servidor");
+      setMessage(error.message);
     } finally {
       actions.setSubmitting(false);
     }
@@ -186,7 +186,7 @@ const CreateVehicle = () => {
           <></>
         )}
         <div className={{ display: 'flex', gap: '16px' }}>
-          <a className="a-navegar" onClick={() => navigate("/getall")}>
+          <a className="a-navegar" onClick={() => navigate("/home")}>
             Volver al menú
           </a>
 
