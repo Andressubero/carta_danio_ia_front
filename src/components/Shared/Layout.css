@@ -11,7 +11,7 @@
   align-items: center;
   padding: 0 3vw;
   box-sizing: border-box;
-  z-index: 1000;
+  z-index: 500;
 }
 
 .header-left {
@@ -67,7 +67,7 @@
   font-size: 0.85rem;
   color: #333;
   box-sizing: border-box;
-  z-index: 1000;
+  z-index: 500;
 }
 
 .footer-left {
