@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './DamageForm.css';
 import autoImg from '../../images/sedan_croquis.jpg';
 import { SedanParts } from '../../Data/SedanParts.jsx';
+import { useLocation } from "react-router-dom";
+
+
 
 const puntos = SedanParts;
 
 const VehicleStateForm = () => {
-  const { id, brand, model } = useParams();
+  const { id } = useParams();
   const [step, setStep] = useState(1);
+  console.log("ID del vehiculo:", id);
+  const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
 
   const [vehicleId] = useState(id || '');
-  const [vehicleBrand, setVehicleBrand] = useState(brand || '');
-  const [vehicleModel, setVehicleModel] = useState(model || '');
   const [date, setDate] = useState('');
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [images, setImages] = useState({});
   const [result, setResult] = useState(null);
 
@@ -23,6 +29,36 @@ const VehicleStateForm = () => {
   const [damageType, setDamageType] = useState("ABOLLADURA");
   const [damageDescription, setDamageDescription] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: "0%", left: "0%" });
+
+const location = useLocation();
+
+
+useEffect(() => {
+  const fetchData = async () => {
+    console.log("URL anterior:", location.state?.from);
+    try {
+      console.log("Fetching vehicle data for ID:", id);
+      setError(false);
+      setLoading(true);
+      const response = await fetch(`${apiUrl}/vehicle/vehicle-with-parts/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const result = await response.json();
+      setData(result);
+      setEstadoPartes(result.parts.map((p)=>({name: p.name, part_id : p.id, damages: [{damage_type: "SIN_DANO", description: "Sin daño"}]})));
+
+      console.log("Vehicle data fetched:", result);
+    } catch (error) {
+      console.error( error.message);
+      setError(error.message);
+    }  finally {
+      setLoading(false);
+    }
+  };
+  fetchData();
+}, [])
+  
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
@@ -40,22 +76,32 @@ const VehicleStateForm = () => {
     reader.readAsDataURL(files[0]);
   };
 
-  const handlePartClick = (part) => {
-    setSelectedPart(part);
+  const handlePartClick = (punto) => {
+    console.log("Punto seleccionado:", punto);
+    setSelectedPart(estadoPartes.find(ep => ep.name === punto.name));
+    console.log("Estado de partes:", estadoPartes.find(ep => ep.name === punto.name));
     setDamageType("ABOLLADURA");
     setDamageDescription("");
     setFormVisible(true);
-    setPopupPosition({ top: part.top, left: `calc(${part.left} + 15px)` });
+    setPopupPosition({ top: punto.top, left: `calc(${punto.left} + 15px)` });
   };
 
   const addDamage = () => {
+    console.log("selectred part", selectedPart);
     const existing = estadoPartes.find((p) => p.part_id === selectedPart.part_id);
     const newDamage = { damage_type: damageType, description: damageDescription };
-
+    debugger
     if (existing) {
-      existing.damages.push(newDamage);
-      setEstadoPartes([...estadoPartes]);
+      console.log("entro al if de existing");
+      setEstadoPartes((current) => (current.map((c) => {if (c.part_id === selectedPart.part_id) {
+        return {
+          ...c,
+          damages: [...c.damages.filter((d) => d.damage_type !== 'SIN_DANO'), newDamage]
+        }
+      }
+      return c; })));
     } else {
+      console.log("entro al else de existing");
       setEstadoPartes([
         ...estadoPartes,
         { part_id: selectedPart.part_id, damages: [newDamage] }
@@ -69,7 +115,7 @@ const VehicleStateForm = () => {
   const getSidesInvolved = () => {
     const sides = new Set();
     for (const ep of estadoPartes) {
-      const punto = puntos.find(p => p.part_id === ep.part_id);
+      const punto = puntos.find(p => p.id === ep.name);
       if (punto && punto.side) sides.add(punto.side);
     }
     return Array.from(sides);
@@ -82,6 +128,9 @@ const VehicleStateForm = () => {
     formData.append('date', date);
     formData.append('brand', vehicleBrand);
     formData.append('model', vehicleModel);
+    let filteredEstadoPartes = estadoPartes;
+    if (!isFirtsState){
+      filteredEstadoPartes = estadoPartes.filter(ep => ep.damages.some((d) => d.damageType !== 'SIN_DANO'));    }
     formData.append('states', JSON.stringify(estadoPartes));
 
     const sideToField = {
@@ -99,7 +148,7 @@ const VehicleStateForm = () => {
       }
     });
 
-    const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
+    
     try {
       const response = await fetch(`${apiUrl}/vehiclestate/create`, {
         method: 'POST',
@@ -113,6 +162,9 @@ const VehicleStateForm = () => {
     }
   };
 
+  if (loading || !data) return <p>Cargando...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <form onSubmit={handleSubmit} className="damage-form" encType="multipart/form-data">
       <h1>Crear Estado del Vehículo</h1>
@@ -121,17 +173,17 @@ const VehicleStateForm = () => {
         <>
           <div className="input-group">
             <label>Marca:</label>
-            <input type="text" value={vehicleBrand} onChange={(e) => setVehicleBrand(e.target.value)} required />
+            <input type="text" value={data.brand} onChange={(e) => setVehicleBrand(e.target.value)} required />
           </div>
           <div className="input-group">
             <label>Modelo:</label>
-            <input type="text" value={vehicleModel} onChange={(e) => setVehicleModel(e.target.value)} required />
+            <input type="text" value={data.model} onChange={(e) => setVehicleModel(e.target.value)} required />
           </div>
           <div className="input-group">
-            <label>Fecha (YYYY-MM-DD):</label>
+            <label>Fecha de declaracion (YYYY-MM-DD):</label>
             <input type="text" value={date} onChange={(e) => setDate(e.target.value)} required />
           </div>
-          <button type="button" onClick={nextStep} disabled={!vehicleBrand || !vehicleModel || !date}>Siguiente</button>
+          <button type="button" onClick={nextStep} disabled={!date || loading}>Siguiente</button>
         </>
       )}
 
@@ -140,7 +192,7 @@ const VehicleStateForm = () => {
           <div className="image-container">
             <img src={autoImg} alt="Croquis del auto" className="car-image" />
             {puntos.map((p) => {
-              const isSelected = estadoPartes.some(ep => ep.part_id === p.part_id);
+              const isSelected = estadoPartes.some(ep => ep.name === p.name);
               return (
                 <button
                   key={p.id}
@@ -160,6 +212,7 @@ const VehicleStateForm = () => {
                   <option value="ABOLLADURA">Abolladura</option>
                   <option value="RAYON">Rayón</option>
                   <option value="OTRO">Otro</option>
+                  <option value="SIN_DANO">Sin danio</option>
                 </select>
                 <label>Descripción:</label>
                 <input type="text" value={damageDescription} onChange={(e) => setDamageDescription(e.target.value)} />

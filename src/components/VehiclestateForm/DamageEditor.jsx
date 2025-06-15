@@ -1,155 +1,33 @@
 import React, { useState } from 'react';
 import './DamageEditor.css';
-import autoImg from '../../images/foto_danios.jpg';
+import autoImg from '../../images/moto5sidescroquis.png';
 
 const initialPoints =[
-  {
-    "id": "Techo",
-    "top": "7.1%",
-    "left": "48.7%"
-  },
-  {
-    "id": "Parabrisas",
-    "top": "10.6%",
-    "left": "49.2%"
-  },
-  {
-    "id": "Luneta Trasera",
-    "top": "3.9%",
-    "left": "49.2%"
-  },
-  {
-    "id": "Baúl",
-    "top": "2.3%",
-    "left": "49.4%"
-  },
-  {
-    "id": "Paragolpes trasero",
-    "top": "1.0%",
-    "left": "49.1%"
-  },
-  {
-    "id": "Capó",
-    "top": "13.1%",
-    "left": "49.2%"
-  },
-  {
-    "id": "Paragolpes delantero",
-    "top": "15.0%",
-    "left": "49.2%"
-  },
-  {
-    "id": "Rueda delantera derecha",
-    "top": "13.1%",
-    "left": "86.4%"
-  },
-  {
-    "id": "Rueda trasera derecha",
-    "top": "3.7%",
-    "left": "86.2%"
-  },
-  {
-    "id": "Ventana delantera derecha",
-    "top": "8.6%",
-    "left": "68.4%"
-  },
-  {
-    "id": "Ventana trasera derecha",
-    "top": "6.7%",
-    "left": "68.7%"
-  },
-  {
-    "id": "Puerta delantera derecha",
-    "top": "8.6%",
-    "left": "80.7%"
-  },
-  {
-    "id": "Puerta trasera derecha",
-    "top": "6.7%",
-    "left": "80.7%"
-  },
-  {
-    "id": "Guarda fango delantero derecho",
-    "top": "12.1%",
-    "left": "74.9%"
-  },
-  {
-    "id": "Guarda fango trasero derecho",
-    "top": "4.2%",
-    "left": "71.2%"
-  },
-  {
-    "id": "Luz delantera derecha",
-    "top": "14.0%",
-    "left": "70.7%"
-  },
-  {
-    "id": "Luz trasera derecha",
-    "top": "1.7%",
-    "left": "75.7%"
-  },
-  {
-    "id": "Retrovisor derecho",
-    "top": "10.6%",
-    "left": "68.4%"
-  },
-  {
-    "id": "Rueda delantera izquierda",
-    "top": "13.1%",
-    "left": "11.4%"
-  },
-  {
-    "id": "Rueda trasera izquierda",
-    "top": "3.6%",
-    "left": "12.2%"
-  },
-  {
-    "id": "Ventana delantera izquierda",
-    "top": "8.7%",
-    "left": "29.7%"
-  },
-  {
-    "id": "Ventana trasera izquierda",
-    "top": "6.7%",
-    "left": "29.7%"
-  },
-  {
-    "id": "Puerta delantera izquierda",
-    "top": "8.7%",
-    "left": "16.7%"
-  },
-  {
-    "id": "Puerta trasera izquierda",
-    "top": "6.7%",
-    "left": "17.2%"
-  },
-  {
-    "id": "Guarda fango delantero izquierdo",
-    "top": "12.1%",
-    "left": "23.2%"
-  },
-  {
-    "id": "Guarda fango trasero izquierdo",
-    "top": "4.2%",
-    "left": "26.7%"
-  },
-  {
-    "id": "Luz delantera izquierda",
-    "top": "14.0%",
-    "left": "26.9%"
-  },
-  {
-    "id": "Luz trasera izquierda",
-    "top": "1.7%",
-    "left": "22.2%"
-  },
-  {
-    "id": "Retrovisor izquierdo",
-    "top": "10.6%",
-    "left": "30.2%"
-  }
-]
-;
+{id: "Manillar izquierdo", top: "10.6%", left: "35.8%", side: "FRONT"},
+{id: "Manillar derecho", top: "10.6%", left: "65.3%", side: "FRONT"},
+{id: "Espejo retrovisor izquierdo", top: "0.8%", left: "8.0%", side: "FRONT"},
+{id: "Espejo retrovisor derecho", top: "0.6%", left: "34.3%", side: "FRONT"},
+{id: "Luz delantera", top: "2.7%", left: "21.8%", side: "FRONT"},
+{id: "Tanque", top: "9.5%", left: "51.0%", side: "TOP"},
+{id: "Asiento", top: "6.0%", left: "50.2%", side: "TOP"},
+{id: "Rueda trasera", top: "6.5%", left: "85.0%", side: "BACK"},
+{id: "Rueda delantera", top: "6.6%", left: "26.8%", side: "FRONT"},
+{id: "Luz trasera", top: "1.9%", left: "80.0%", side: "BACK"},
+{id: "Luz trasera derecha", top: "2.0%", left: "93.8%", side: "BACK"},
+{id: "Luz trasera izquierda", top: "2.1%", left: "66.8%", side: "BACK"},
+{id: "Luz delantera lateral derecha", top: "2.9%", left: "36.0%", side: "FRONT"},
+{id: "Luz delantera lateral izquierda", top: "2.8%", left: "8.0%", side: "FRONT"},
+{id: "Guardabarro delantero", top: "4.3%", left: "21.8%", side: "FRONT"},
+{id: "Estribo izquierdo", top: "7.5%", left: "35.8%", side: "TOP"},
+{id: "Estribo derecho", top: "7.4%", left: "63.7%", side: "TOP"},
+{id: "Chasis lateral izquierdo", top: "10.6%", left: "19.5%", side: "LATERAL_LEFT"},
+{id: "Chasis lateral derecho", top: "10.5%", left: "79.8%", side: "LATERAL_RIGHT"},
+{id: "Chasis trasero izquierdo", top: "8.6%", left: "16.3%", side: "LATERAL_LEFT"},
+{id: "Chasis trasero derecho", top: "8.7%", left: "83.5%", side: "LATERAL_RIGHT"},
+{id: "Guardabarro trasero", top: "3.7%", left: "80.0%", side: "BACK"},
+{id: "Tablero", top: "11.5%", left: "50.2%", side: "TOP"}
+
+];
 
 const DamageEditor = () => {
   const [points, setPoints] = useState(initialPoints);

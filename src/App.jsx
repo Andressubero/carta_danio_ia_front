@@ -10,6 +10,7 @@ import MyVehicles from './components/MyVehicles/MyVehicles'
 import VehicleDetail from './components/VehicleDetail/VehicleDetail'
 import VehicleStateForm from './components/VehiclestateForm/VehiclestateForm'
 import MainLayout from './components/Shared/MainLayout'
+import DamageEditor from './components/VehiclestateForm/DamageEditor'
 import './App.css'
 
 function App() {
@@ -37,10 +38,12 @@ function PrivateRoute({ children }) {
         }
       >
         <Route path="/home" element={<VehicleStateTable />} />
-        <Route path="/vehiclestate/create" element={<VehicleStateForm />} />
+        <Route path="/vehicle-state/create/:id" element={<VehicleStateForm />} />
         <Route path="/createVehicle" element={<CreateVehicle />} />
         <Route path="/myVehicles" element={<MyVehicles />} />
         <Route path="/vehicle/:id" element={<VehicleDetail />} />
+        
+
       </Route>
 
       {/* Rutas públicas */}
@@ -50,6 +53,7 @@ function PrivateRoute({ children }) {
       />
       <Route path="/login" element={<UserLogin />} />
       <Route path="/register" element={<UserRegister />} />
+      <Route path="/editor" element={<DamageEditor />} />
     </Routes>
   );
 
