@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { FaCarSide, FaRobot, FaInfo } from "react-icons/fa";
+import { FaCarSide, FaRobot, FaInfo  } from "react-icons/fa";
+import { BiBookmarkPlus } from "react-icons/bi"
 import {
   useReactTable,
   getCoreRowModel,
@@ -16,15 +17,24 @@ import { ModalComponent } from "./Modal";
 import AIReport from "./AIReport";
 import VehicleStateSummary from "./VehicleStateSummary";
 import { useUser } from "../../../context/useUser";
+import ValidateState from "./ValidateState";
 
 const VehicleStateTable = () => {
   const [data, setData] = useState([]);
   const [isModalOpen, setIsOpen] = useState(false);
   const [vehicleStateIdForReport, setVehicleStateIdForReport] = useState('');
   const [vehicleStateIdForDetail, setVehicleStateIdForDetail] = useState('');
+  const [vehicleStateIdForValidate, setVehicleStateIdForValidate] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { user } = useUser()
+
+  function closeModal(v){
+    setIsOpen(v);
+    setVehicleStateIdForDetail('');
+    setVehicleStateIdForReport('')
+    setVehicleStateIdForValidate('')
+  }
 
   const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
   const addActions = (row) => {
@@ -33,6 +43,9 @@ const VehicleStateTable = () => {
     }
     const stateDetail = {
         icon: () => <FaInfo style={{ fontSize: 30, color: '#b5b5c3', cursor: 'pointer' }} onClick={() => {setVehicleStateIdForDetail(row.id); setIsOpen(true)}} />
+    }
+    const validateState = {
+      icon: () => <BiBookmarkPlus style={{ fontSize: 30, color: '#b5b5c3', cursor: 'pointer' }} onClick={() => {setVehicleStateIdForValidate(row.id); setIsOpen(true)}} />
     }
     row.actions = [
       {
@@ -43,26 +56,26 @@ const VehicleStateTable = () => {
     if (user.role === 'admin') {
       row.actions.push(report),
       row.actions.push(stateDetail)
+      row.actions.push(validateState)
     }
     return row;
   }
+  const fetchData = async () => {
+    try {
+      const res = await fetch(`${apiUrl}/vehicle-state/get-all`, {
+        method: "GET",
+        credentials: "include",
+      });
+      const json = await res.json();
+      
+      setData(json.map(addActions));
+    } catch (error) {
+      console.error("Error al obtener datos:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`${apiUrl}/vehicle-state/get-all`, {
-          method: "GET",
-          credentials: "include",
-        });
-        const json = await res.json();
-        
-        setData(json.map(addActions));
-      } catch (error) {
-        console.error("Error al obtener datos:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -74,6 +87,7 @@ const VehicleStateTable = () => {
     getSortedRowModel: getSortedRowModel(),
   });
 
+  
   if (isLoading) return <p className="text-light">Cargando datos...</p>;
 
   return (
@@ -136,14 +150,16 @@ const VehicleStateTable = () => {
           </div>
         </div>
       </div>
-      <ModalComponent isOpen={isModalOpen} setIsOpen={setIsOpen}>
+      <ModalComponent isOpen={isModalOpen} setIsOpen={closeModal}>
         {
           vehicleStateIdForReport && (<AIReport id={vehicleStateIdForReport} />)
         }
         {
           vehicleStateIdForDetail && (<VehicleStateSummary data={data?.find((vs) => vs.id === vehicleStateIdForDetail)} />)
         }
-        
+        {
+          vehicleStateIdForValidate && (<ValidateState initialState={data?.find((vs) => vs.id === vehicleStateIdForValidate)?.validation_state || 'PENDIENTE'} onCancel={function(reload) { if(reload){ fetchData() }; closeModal(false); }} id={vehicleStateIdForValidate} />)
+        }
       </ModalComponent>
     </>
   );
