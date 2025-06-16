@@ -35,7 +35,6 @@ function VehicleStateSummary({ data }) {
               <p><strong>Parte:</strong> {part.vehicle_part_name || 'Sin nombre'}</p>
                 {part.image ? (
                 <div style={{ width: '100%', margin: '1rem 0' }}>
-                    {console.log(`${API_URL}/${part.image.replace(/\\/g, '/')}`)}
                     <img
                     src={`${API_URL}/${part.image.replace(/\\/g, '/')}`}
                     alt={`Imagen de ${part.vehicle_part_name}`}

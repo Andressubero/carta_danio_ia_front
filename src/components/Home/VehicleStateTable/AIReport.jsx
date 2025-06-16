@@ -15,6 +15,7 @@ function AIReportSummary({ report }) {
     is_same_unit_as_reference,
     comparison_with_reference,
     additional_comments,
+    validation_reasons,
     part_damages = [],
   } = report;
 
@@ -37,6 +38,11 @@ function AIReportSummary({ report }) {
       <div className="section">
         <strong>Comparación con referencia:</strong><br />
         {comparison_with_reference}
+      </div>
+
+      <div className="section">
+        <strong>Razones para validar:</strong><br />
+        {validation_reasons}
       </div>
 
       <div className="section">
@@ -64,7 +70,7 @@ const AIReport = ({id}) => {
     const [data, setData] = useState(null)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
-    console.log(id)
+
  const getReport = async () => {
     if (!id) {
         return

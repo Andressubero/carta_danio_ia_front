@@ -1,6 +1,7 @@
 import "../../styles/authLayout.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Card } from "react-bootstrap";
 
 const MyVehicles = () => {
   const [myVehicles, setMyVehicles] = useState([]);
@@ -31,30 +32,24 @@ const MyVehicles = () => {
         <p className="bold-text">Aún no ha registrado ningun vehiculo</p>
       ) : (
         <div className="row g-4">
-          {myVehicles.map((v) => (
-            <div className="col" key={v.id}>
-              <div className="card 100 shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title">
-                    {v.brand} {v.model}
-                  </h5>
-                  <p className="card-text">
-                    <strong>Año:</strong> {v.year} <br />
-                    <strong>Patente:</strong> {v.plate} <br />
-                    <strong>Tipo de Vehículo:</strong> {v.vehicle_type_id}
-                  </p>
-                </div>
-              </div>
-            </div>
+          {myVehicles.map((vehicle) => (
+            <Card className="mb-3" style={{ width: "18rem" }}>
+              <Card.Body>
+                <Card.Title>{vehicle.brand} {vehicle.model}</Card.Title>
+                <Card.Text><strong>Año:</strong> {vehicle.year}</Card.Text>
+                <Card.Text><strong>Placa:</strong> {vehicle.plate}</Card.Text>
+                <Card.Link onClick={function() { navigate("/vehicle-state/create/" + vehicle.id ,{state: { from: "/vehicleDetail" }})}} className="btn btn-outline-primary"><strong>Nueva Carta de daño</strong></Card.Link>
+              </Card.Body>
+            </Card>
           ))}
         </div>
       )}
 
-      <div>
-        <a className="a-navegar" onClick={() => navigate("/home")}>
+      <div className="d-flex flex-column gap-2">
+        <a className="btn btn-secondary" onClick={() => navigate("/home")}>
           Volver al menú
         </a>
-        <a className="a-navegar" onClick={() => navigate("/createVehicle")}>
+        <a className="btn btn-primary" onClick={() => navigate("/createVehicle")}>
           Nuevo vehículo
         </a>
       </div>

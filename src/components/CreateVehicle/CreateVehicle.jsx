@@ -29,7 +29,7 @@ const CreateVehicle = () => {
         const data = await response.json();
         setVehicleTypes(data.vehicle_types);
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
       }
     };
 
