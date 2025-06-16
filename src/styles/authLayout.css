@@ -40,7 +40,7 @@
   margin: 25px auto;
 }
 
-/* Ajuste del botón */
+/* Ajuste del botón
 button.btn {
   font-weight: bold;
   padding: 10px 20px;
@@ -53,7 +53,7 @@ button.btn:hover {
   background-color: rgb(73, 66, 170);
   border-color: transparent;
   color: white;
-}
+} */
 
 .form-label {
   font-weight: bold;

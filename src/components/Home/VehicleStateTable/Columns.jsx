@@ -7,7 +7,6 @@ const getErrorMessage = (vr) => {
     return 'Error no encontrado'
   }
   const e = vr.split(',').map((vr)=> errors.find((e)=> vr.includes(e.codigo))?.mensaje)
-  console.log(e)
   return e.concat(' ')
 }
 export const getColumns = () => [

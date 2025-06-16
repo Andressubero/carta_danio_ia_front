@@ -29,7 +29,7 @@ const CreateVehicle = () => {
         const data = await response.json();
         setVehicleTypes(data.vehicle_types);
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
       }
     };
 
@@ -55,7 +55,11 @@ const CreateVehicle = () => {
       setSuccess(data.success);
       setMessage(data.message);
 
-      if (data.success) actions.resetForm();
+      if (data.success) 
+      {
+        actions.resetForm();
+        navigate("/vehicle-state/create/" + data.vehicle.id ,{state: { from: "/createVehicle" }});
+      }
     } catch (error) {
       setSuccess(false);
       setMessage(error.message);
