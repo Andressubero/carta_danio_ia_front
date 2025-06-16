@@ -8,11 +8,49 @@ import { SedanParts } from '../../Data/SedanParts.jsx';
 import { useLocation } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { NavigateModal } from '../Modal/NavigateModal.jsx';
+import { HatchbackParts } from '../../Data/HatchbackParts.jsx';
+import { PickupParts } from '../../Data/PickupParts.jsx';
+import { MotorbikeParts } from '../../Data/MotorbikeParts.jsx';
+import sedanImg from '../../images/sedan_croquis.jpg';
+import hatchbackImg from '../../images/hatchback_croquis.png';
+import pickupImg from '../../images/pickup_croquis.png';
+import motorbikeImg from '../../images/motorbike_croquis.png';
+
+const croquis = [
+  {
+    type: 'sedan',
+    image: sedanImg,
+  },
+  {
+    type: 'hatchback',
+    image: hatchbackImg,
+  },
+  {
+    type: 'pickup',
+    image: pickupImg,
+  },
+  {
+    type: 'motocicleta',
+    image: motorbikeImg,
+  },
+];
 
 const puntos = [
   {
     type: 'sedan',
     points: SedanParts
+  },
+    {
+    type: 'hatchback',
+    points: HatchbackParts
+  },
+  {
+    type: 'pickup',
+    points: PickupParts
+  },
+  {
+    type: 'motocicleta',
+    points: MotorbikeParts
   }
 ]
 
@@ -31,6 +69,10 @@ const VehicleStateForm = () => {
   const [showSucessModal, setModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState({});
+
+  const vehicleType = data?.type?.toLowerCase(); 
+  const imagePath = croquis.find(c => c.type === vehicleType)?.image;
+
 
   const [estadoPartes, setEstadoPartes] = useState([]);
   const [formVisible, setFormVisible] = useState(false);
@@ -94,7 +136,6 @@ useEffect(() => {
       }
       return c; })));
     } else {
-      console.log("entro al else de existing");
       setEstadoPartes([
         ...estadoPartes,
         { part_id: selectedPart.part_id, damages: [newDamage] }
@@ -186,162 +227,219 @@ useEffect(() => {
         <>
           <Form.Group className="w-100">
             <Form.Label>Marca</Form.Label>
-            <Form.Control 
+            <Form.Control
               required
-              type="text" 
-              value={data.brand} 
+              type="text"
+              value={data.brand}
               readOnly
               className="p-2 border rounded"
             />
           </Form.Group>
-              <Form.Group className="w-100">
+          <Form.Group className="w-100">
             <Form.Label>Modelo</Form.Label>
-            <Form.Control 
+            <Form.Control
               required
-              type="text" 
-              value={data.model} 
+              type="text"
+              value={data.model}
               readOnly
               className="p-2 border rounded"
             />
           </Form.Group>
           <Form.Group className="w-100">
             <Form.Label>Fecha del estado declarado</Form.Label>
-            <Form.Control 
+            <Form.Control
               required
-              type="date" 
-              value={date} 
+              type="date"
+              value={date}
               max={new Date().toISOString().split("T")[0]}
               onChange={(e) => setDate(e.target.value)}
               className="p-2 border rounded"
             />
           </Form.Group>
-          <button className='btn btn-outline-primary mt-5' type="button" onClick={nextStep} disabled={!date || loading}>Siguiente</button>
+          <button
+            className="btn btn-outline-primary mt-5"
+            type="button"
+            onClick={nextStep}
+            disabled={!date || loading}
+          >
+            Siguiente
+          </button>
         </>
       )}
 
       {step === 2 && (
         <>
           <div className="image-container">
-            <img src={autoImg} alt="Croquis del auto" className="car-image" />
+            <img src={imagePath} alt="Croquis" className="car-image" />
             {points.map((p) => {
-              const isSelected = estadoPartes.some(ep => ep.name === p.name);
+              const isSelected = estadoPartes.some((ep) => ep.name === p.name);
               return (
                 <button
-                  key={p.id}
+                  key={p.id || `${p.name}-${p.side}`}
                   type="button"
                   title={p.id}
-                  className={`marker ${isSelected ? 'selected' : ''}`}
+                  className={`marker ${isSelected ? "selected" : ""}`}
                   style={{ top: p.top, left: p.left }}
                   onClick={() => handlePartClick(p)}
                 />
               );
             })}
+
             {formVisible && selectedPart && (
-              <div className="damage-popup" style={{ top: popupPosition.top, left: popupPosition.left }}>
+              <div
+                className="damage-popup"
+                style={{ top: popupPosition.top, left: popupPosition.left }}
+              >
                 <h4>{selectedPart.id}</h4>
                 <label>Tipo de daño:</label>
-                <select value={damageType} onChange={(e) => setDamageType(e.target.value)}>
+                <select
+                  value={damageType}
+                  onChange={(e) => setDamageType(e.target.value)}
+                >
                   <option value="ABOLLADURA">Abolladura</option>
                   <option value="RAYON">Rayón</option>
                   <option value="OTRO">Otro</option>
                   <option value="SIN_DANO">Sin danio</option>
                 </select>
                 <label>Descripción:</label>
-                <input type="text" value={damageDescription} onChange={(e) => setDamageDescription(e.target.value)} />
-                <button type="button" onClick={addDamage}>Guardar daño</button>
-                <button type="button" onClick={() => setFormVisible(false)}>Cancelar</button>
+                <input
+                  type="text"
+                  value={damageDescription}
+                  onChange={(e) => setDamageDescription(e.target.value)}
+                />
+                <button type="button" onClick={addDamage}>
+                  Guardar daño
+                </button>
+                <button type="button" onClick={() => setFormVisible(false)}>
+                  Cancelar
+                </button>
               </div>
             )}
           </div>
 
           <section className="json-preview">
             <h3>JSON generado (solo para debug):</h3>
-            <textarea rows="10" value={JSON.stringify(estadoPartes, null, 2)} readOnly />
+            <textarea
+              rows="10"
+              value={JSON.stringify(estadoPartes, null, 2)}
+              readOnly
+            />
           </section>
 
-          <button type="button" onClick={prevStep}>Anterior</button>
-          <button type="button" onClick={nextStep} disabled={estadoPartes.length === 0}>Siguiente</button>
+          <button type="button" onClick={prevStep}>
+            Anterior
+          </button>
+          <button
+            type="button"
+            onClick={nextStep}
+            disabled={estadoPartes.length === 0}
+          >
+            Siguiente
+          </button>
         </>
       )}
 
       {step === 3 && (
-  <>
-    <h3>Subí imágenes de los lados afectados</h3>
-    {getSidesInvolved().map((sideKey) => {
-      const label = {
-        LATERAL_RIGHT: "Lateral derecho",
-        LATERAL_LEFT: "Lateral izquierdo",
-        FRONT: "Frente",
-        BACK: "Parte trasera",
-        TOP: "Techo"
-      }[sideKey];
+        <>
+          <h3>Subí imágenes de los lados afectados</h3>
+          {getSidesInvolved().map((sideKey) => {
+            const label = {
+              LATERAL_RIGHT: "Lateral derecho",
+              LATERAL_LEFT: "Lateral izquierdo",
+              FRONT: "Frente",
+              BACK: "Parte trasera",
+              TOP: "Techo",
+            }[sideKey];
 
-      const exampleMap = {
-        LATERAL_RIGHT: "sedan_right_example.png",
-        LATERAL_LEFT: "sedan_left_example.png",
-        FRONT: "sedan_front_example.png",
-        BACK: "sedan_back_example.png",
-        TOP: "sedan_top_example.png"
-      };
+            const exampleMap = {
+              LATERAL_RIGHT: "sedan_right_example.png",
+              LATERAL_LEFT: "sedan_left_example.png",
+              FRONT: "sedan_front_example.png",
+              BACK: "sedan_back_example.png",
+              TOP: "sedan_top_example.png",
+            };
 
-      const exampleImg = `/src/images/sedan_photos_example/${exampleMap[sideKey]}`;
+            const exampleImg = `/src/images/sedan_photos_example/${exampleMap[sideKey]}`;
 
+            return (
+              <div className="input-group" key={sideKey}>
+                <div className="label-with-tooltip">
+                  <label>{label}</label>
+                  <span className="info-icon">
+                    ℹ️
+                    <div className="tooltip-image">
+                      <img src={exampleImg} alt={`Ejemplo ${label}`} />
+                    </div>
+                  </span>
+                </div>
 
-      return (
-        <div className="input-group" key={sideKey}>
-          <div className="label-with-tooltip">
-            <label>{label}</label>
-            <span className="info-icon">ℹ️
-              <div className="tooltip-image">
-                <img src={exampleImg} alt={`Ejemplo ${label}`} />
+                <input
+                  type="file"
+                  name={sideKey}
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                      setImages((prev) => ({
+                        ...prev,
+                        [sideKey]: {
+                          file,
+                          preview: ev.target.result,
+                        },
+                      }));
+                    };
+                    reader.readAsDataURL(file);
+                  }}
+                />
+
+                {images[sideKey]?.preview && (
+                  <img
+                    src={images[sideKey].preview}
+                    alt={`Preview ${label}`}
+                    className="image-preview"
+                  />
+                )}
               </div>
-            </span>
-          </div>
-
-          <input
-            type="file"
-            name={sideKey}
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (!file) return;
-
-              const reader = new FileReader();
-              reader.onload = (ev) => {
-                setImages((prev) => ({
-                  ...prev,
-                  [sideKey]: {
-                    file,
-                    preview: ev.target.result,
-                  },
-                }));
-              };
-              reader.readAsDataURL(file);
-            }}
-          />
-
-          {images[sideKey]?.preview && (
-            <img
-              src={images[sideKey].preview}
-              alt={`Preview ${label}`}
-              className="image-preview"
+            );
+          })}
+          <div className="d-flex justify-content-center gap-3">
+            <NavigateModal
+              buttonText={"Aceptar"}
+              state={showSucessModal}
+              onClick={function () {
+                navigate("/");
+              }}
+              text={
+                !error
+                  ? "Carta de daño registrada"
+                  : "Error creando la carta de daño"
+              }
+              comment={
+                !error
+                  ? "Puedes verla desde la página inicial"
+                  : "Inténtalo nuevamente"
+              }
             />
-          )}
-        </div>
-      );
-    })}
-    <div className='d-flex justify-content-center gap-3'>
-      <NavigateModal
-      buttonText={"Aceptar"}
-      state={showSucessModal}
-      onClick={function(){navigate("/")}}
-      text={!error ? "Carta de daño registrada" : "Error creando la carta de daño"}
-      comment={!error ? "Puedes verla desde la página inicial" : "Inténtalo nuevamente"} />
-      <button className='btn btn-outline-secondary' type="button" onClick={prevStep}>Anterior</button>
-      <button onClick={handleSubmit} className='btn btn-outline-primary' type="submit">Crear Estado</button>
-    </div>
-  </>
-)}
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={prevStep}
+            >
+              Anterior
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="btn btn-outline-primary"
+              type="submit"
+            >
+              Crear Estado
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
