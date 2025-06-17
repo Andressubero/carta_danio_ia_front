@@ -55,7 +55,9 @@ const VehicleStateTable = () => {
         });
         const json = await res.json();
         
-        setData(json.map(addActions));
+        // If the backend returns { data: [...] }, use json.data; otherwise, use json directly if it's an array
+        const vehicleStates = Array.isArray(json) ? json : (Array.isArray(json.data) ? json.data : []);
+        setData(vehicleStates.map(addActions));
       } catch (error) {
         console.error("Error al obtener datos:", error);
       } finally {
