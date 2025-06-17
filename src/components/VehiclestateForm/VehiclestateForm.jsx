@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { useParams } from 'react-router-dom';
 import './DamageForm.css';
-import autoImg from '../../images/sedan_croquis.jpg';
 import { SedanParts } from '../../Data/SedanParts.jsx';
 import { useLocation } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
@@ -11,14 +10,14 @@ import { NavigateModal } from '../Modal/NavigateModal.jsx';
 import { HatchbackParts } from '../../Data/HatchbackParts.jsx';
 import { PickupParts } from '../../Data/PickupParts.jsx';
 import { MotorbikeParts } from '../../Data/MotorbikeParts.jsx';
-import sedanImg from '../../images/sedan_croquis.jpg';
+import sedanImg from '../../images/sedan_croquis.png';
 import hatchbackImg from '../../images/hatchback_croquis.png';
 import pickupImg from '../../images/pickup_croquis.png';
 import motorbikeImg from '../../images/motorbike_croquis.png';
 
 const croquis = [
   {
-    type: 'sedan',
+    type: 'sedán',
     image: sedanImg,
   },
   {
