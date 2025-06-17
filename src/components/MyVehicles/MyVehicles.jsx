@@ -33,13 +33,42 @@ const MyVehicles = () => {
       ) : (
         <div className="row g-4">
           {myVehicles.map((vehicle) => (
-            <Card className="mb-3" style={{ width: "18rem" }}>
+            <Card key={vehicle.id} className="mb-3" style={{ width: "18rem" }}>
               <Card.Body>
-                <Card.Title>{vehicle.brand} {vehicle.model}</Card.Title>
-                <Card.Text><strong>Año:</strong> {vehicle.year}</Card.Text>
-                <Card.Text><strong>Placa:</strong> {vehicle.plate}</Card.Text>
-                <Card.Link onClick={function() { navigate("/vehicle-state/create/" + vehicle.id ,{state: { from: "/vehicleDetail" }})}} className="btn btn-outline-primary"><strong>Nueva Carta de daño</strong></Card.Link>
+                <Card.Title>
+                  {vehicle.brand} {vehicle.model}
+                </Card.Title>
+                <Card.Text>
+                  <strong>Año:</strong> {vehicle.year}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Patente:</strong> {vehicle.plate}
+                </Card.Text>
+                <Card.Link
+                  onClick={function () {
+                    navigate("/vehicle-state/create/" + vehicle.id, {
+                      state: { from: "/vehicleDetail" },
+                    });
+                  }}
+                  className="btn btn-outline-primary"
+                >
+                  <strong>Nueva Carta de daño</strong>
+                </Card.Link>
               </Card.Body>
+              <div className="d-flex flex-row justify-content-center gap-2">
+                <a
+                  className="a-navegar"
+                  onClick={() => navigate("/vehicle/edit/" + vehicle.id)}
+                >
+                  Editar
+                </a>
+                <a
+                  className="a-navegar"
+                  onClick={() => navigate("/createVehicle")}
+                >
+                  Eliminar
+                </a>
+              </div>
             </Card>
           ))}
         </div>
@@ -49,7 +78,10 @@ const MyVehicles = () => {
         <a className="btn btn-secondary" onClick={() => navigate("/home")}>
           Volver al menú
         </a>
-        <a className="btn btn-primary" onClick={() => navigate("/createVehicle")}>
+        <a
+          className="btn btn-primary"
+          onClick={() => navigate("/createVehicle")}
+        >
           Nuevo vehículo
         </a>
       </div>
