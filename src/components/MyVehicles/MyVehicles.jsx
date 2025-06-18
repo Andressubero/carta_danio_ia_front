@@ -5,6 +5,8 @@ import { Card } from "react-bootstrap";
 
 const MyVehicles = () => {
   const [myVehicles, setMyVehicles] = useState([]);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [vehicleToDelete, setVehicleToDelete] = useState(null);
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
 
@@ -24,6 +26,34 @@ const MyVehicles = () => {
 
     fetchMyVehicles();
   }, [apiUrl]);
+
+  useEffect(() => {
+  }, [myVehicles]);
+
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`${apiUrl}/vehicle/delete/${vehicleToDelete}`, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        navigate("/myVehicles");
+      } else {
+        setMessage(data.message || "Error al eliminar el vehículo");
+        setSuccess(false);
+      }
+    } catch (error) {
+      setMessage("Error del servidor");
+      setSuccess(false);
+    } finally {
+      setShowConfirm(false);
+      window.location.reload();
+    }
+  };
 
   return (
     <div className="container d-flex flex-column align-items-center">
@@ -64,7 +94,10 @@ const MyVehicles = () => {
                 </a>
                 <a
                   className="a-navegar"
-                  onClick={() => navigate("/createVehicle")}
+                  onClick={() => {
+                    setVehicleToDelete(vehicle.id);
+                    setShowConfirm(true);
+                  }}
                 >
                   Eliminar
                 </a>
@@ -85,6 +118,25 @@ const MyVehicles = () => {
           Nuevo vehículo
         </a>
       </div>
+
+      {showConfirm && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h5>¿Está seguro que desea eliminar este vehículo?</h5>
+            <div className="d-flex justify-content-around mt-3">
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowConfirm(false)}
+              >
+                Cancelar
+              </button>
+              <button className="btn btn-danger" onClick={handleDelete}>
+                Aceptar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
