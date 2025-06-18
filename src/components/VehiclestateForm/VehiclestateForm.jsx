@@ -68,11 +68,7 @@ const VehicleStateForm = () => {
   const [showSucessModal, setModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState({});
-
-  const vehicleType = data?.type?.toLowerCase(); 
-  const imagePath = croquis.find(c => c.type === vehicleType)?.image;
-
-
+  const [imagePath, setImagePath] = useState('');
   const [estadoPartes, setEstadoPartes] = useState([]);
   const [formVisible, setFormVisible] = useState(false);
   const [selectedPart, setSelectedPart] = useState(null);
@@ -95,9 +91,10 @@ useEffect(() => {
       });
       const result = await response.json();
       setData(result);
+      const tipo = result?.type?.toLowerCase();
+      setImagePath(croquis.find(c => c.type.includes(tipo.substring(0,3)))?.image);
       setEstadoPartes(result.parts.map((p)=>({name: p.name, part_id : p.id, damages: [{damage_type: "SIN_DANO", description: "Sin daño"}]})));
-      const vehicleType = result?.type?.toLowerCase();
-      setPoints(puntos.find((p)=> p.type.includes(vehicleType.substring(0,3)))?.points || [])
+      setPoints(puntos.find((p)=> p.type.includes(tipo.substring(0,3)))?.points || [])
     } catch (error) {
       console.error( error.message);
       setError(error.message);

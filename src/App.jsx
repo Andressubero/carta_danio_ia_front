@@ -11,6 +11,7 @@ import VehicleDetail from './components/VehicleDetail/VehicleDetail'
 import VehicleStateForm from './components/VehiclestateForm/VehiclestateForm'
 import MainLayout from './components/Shared/MainLayout'
 import './App.css'
+import EditVehicle from "./components/EditVehicle/EditVehicle";
 
 function App() {
   const { user, loading } = useUser();
@@ -41,6 +42,7 @@ function PrivateRoute({ children }) {
         <Route path="/createVehicle" element={<CreateVehicle />} />
         <Route path="/myVehicles" element={<MyVehicles />} />
         <Route path="/vehicle/:id" element={<VehicleDetail />} />
+        <Route path="/vehicle/edit/:id" element={<EditVehicle />} />
         
 
       </Route>
