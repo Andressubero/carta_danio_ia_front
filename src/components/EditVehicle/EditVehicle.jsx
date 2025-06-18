@@ -52,6 +52,11 @@ const EditVehicle = () => {
         credentials: "include",
         body: JSON.stringify(values),
       });
+      
+      if (response.status !== 200) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al editar el vehículo");
+      }
 
       const data = await response.json();
       setSuccess(data.success);
