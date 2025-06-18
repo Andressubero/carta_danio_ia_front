@@ -192,6 +192,7 @@ useEffect(() => {
       if (!response.ok || response.status !== 201){
         throw Error('Error creando la carta de daño')
       }
+
     } catch (error) {
       console.error(error);
       setError(error.message)
@@ -391,7 +392,7 @@ useEffect(() => {
               buttonText={"Aceptar"}
               state={showSucessModal}
               onClick={function () {
-                navigate("/");
+                navigate("/home");
               }}
               text={
                 !error

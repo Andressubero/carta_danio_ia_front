@@ -1,6 +1,10 @@
 import { API_URL } from '../../../config';
 import './VehicleStateSummary.css';
 
+const formatValidationReasons = (input) => {
+  return [...new Set(input.split(",").map(item => item.trim()))];
+};
+
 function VehicleStateSummary({ data }) {
   const {
     vehicle_brand,
@@ -23,7 +27,14 @@ function VehicleStateSummary({ data }) {
         <p><strong>Fecha declarada:</strong> {declared_date}</p>
         <p><strong>Estado de validación:</strong> {validation_state}</p>
         {validation_reasons && (
-          <p><strong>Motivos de validación:</strong> {validation_reasons}</p>
+          <>
+            <p><strong>Motivos de validación:</strong></p>
+            <p>
+              <ul>
+                {formatValidationReasons(validation_reasons)?.map((vr)=> (<li>{vr}</li>))}            
+              </ul>
+            </p>  
+          </>
         )}
       </div>
 
