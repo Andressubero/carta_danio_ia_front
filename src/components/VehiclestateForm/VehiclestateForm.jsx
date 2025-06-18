@@ -316,25 +316,14 @@ useEffect(() => {
             )}
           </div>
 
-          <section className="json-preview">
+          {/* <section className="json-preview">
             <h3>JSON generado (solo para debug):</h3>
-            <textarea
-              rows="10"
-              value={JSON.stringify(estadoPartes, null, 2)}
-              readOnly
-            />
-          </section>
-
-          <button type="button" onClick={prevStep}>
-            Anterior
-          </button>
-          <button
-            type="button"
-            onClick={nextStep}
-            disabled={estadoPartes.length === 0}
-          >
-            Siguiente
-          </button>
+            <textarea rows="10" value={JSON.stringify(estadoPartes, null, 2)} readOnly />
+          </section> */}
+          <div className='d-flex mb-5 gap-5 justify-content-center p-5'>
+          <button type="button" onClick={prevStep}>Anterior</button>
+          <button type="button" onClick={nextStep} disabled={estadoPartes.length === 0}>Siguiente</button>
+          </div>
         </>
       )}
 

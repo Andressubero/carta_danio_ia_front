@@ -11,7 +11,7 @@ const Onboarding = () => {
 
         <div className="d-grid gap-3">
           <Link to="/register">
-            <button className="btn btn-success w-100">Registrate</button>
+            <button className="btn btn-outline-info w-100">Registrate</button>
           </Link>
           <Link to="/login">
             <button className="btn btn-primary w-100">Iniciar sesión</button>
