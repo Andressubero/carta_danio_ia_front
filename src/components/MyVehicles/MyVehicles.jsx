@@ -43,12 +43,10 @@ const MyVehicles = () => {
       if (data.success) {
         navigate("/myVehicles");
       } else {
-        setMessage(data.message || "Error al eliminar el vehículo");
-        setSuccess(false);
+        console.error("error borrando vehiculo")
       }
     } catch (error) {
-      setMessage("Error del servidor");
-      setSuccess(false);
+      console.error(error)
     } finally {
       setShowConfirm(false);
       window.location.reload();

@@ -1,6 +1,6 @@
 // src/components/shared/Header.jsx
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LogoutButton from '../UserLogout/LogoutButton'; // Creá este componente como lo armamos antes
 import './Layout.css';
 
@@ -25,8 +25,6 @@ const Header = ({ username = "Usuario" }) => {
       <div className="header-right">
         <nav className="nav-links">
           <Link to="/">Inicio</Link>
-          <Link to="/register">Registro</Link>
-          <Link to="/vehiclestate/getall">Estados</Link>
         </nav>
         {/* Menú de usuario */}
         <div className="user-menu" style={{ position: 'relative', marginLeft: '16px' }}>

@@ -78,7 +78,6 @@ const VehicleStateForm = () => {
 
 const location = useLocation();
 
-
 useEffect(() => {
   setFirstState(location.state?.from === '/createVehicle')
   const fetchData = async () => {
@@ -111,9 +110,7 @@ useEffect(() => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const handlePartClick = (punto) => {
-    console.log("Punto seleccionado:", punto);
     setSelectedPart(estadoPartes.find(ep => ep.name === punto.name));
-    console.log("Estado de partes:", estadoPartes.find(ep => ep.name === punto.name));
     setDamageType("ABOLLADURA");
     setDamageDescription("");
     setFormVisible(true);
@@ -182,7 +179,6 @@ useEffect(() => {
 
     getSidesInvolved().forEach(side => {
       const field = sideToField[side];
-      console.log(field, images, images[field]?.file)
       if (images[side]?.file) {
         formData.append(field, images[side]?.file);
       }
@@ -268,7 +264,7 @@ useEffect(() => {
           <div className="image-container">
             <img src={imagePath} alt="Croquis" className="car-image" />
             {points.map((p) => {
-              const isSelected = estadoPartes.some((ep) => ep.name === p.name);
+              const isSelected = estadoPartes.find((ep) => ((ep.name === p.name) && ep.damages.some((d) => d.damage_type !== 'SIN_DANO')));
               return (
                 <button
                   key={p.id || `${p.name}-${p.side}`}
@@ -283,7 +279,7 @@ useEffect(() => {
 
             {formVisible && selectedPart && (
               <div
-                className="damage-popup"
+                className="damage-popup d-flex flex-column gap-2"
                 style={{ top: popupPosition.top, left: popupPosition.left }}
               >
                 <h4>{selectedPart.id}</h4>
@@ -303,10 +299,10 @@ useEffect(() => {
                   value={damageDescription}
                   onChange={(e) => setDamageDescription(e.target.value)}
                 />
-                <button type="button" onClick={addDamage}>
+                <button className='btn btn-outline-primary' type="button" onClick={addDamage}>
                   Guardar daño
                 </button>
-                <button type="button" onClick={() => setFormVisible(false)}>
+                <button className='btn btn-outline-secondary' type="button" onClick={() => setFormVisible(false)}>
                   Cancelar
                 </button>
               </div>
@@ -318,8 +314,8 @@ useEffect(() => {
             <textarea rows="10" value={JSON.stringify(estadoPartes, null, 2)} readOnly />
           </section> */}
           <div className='d-flex mb-5 gap-5 justify-content-center p-5'>
-          <button type="button" onClick={prevStep}>Anterior</button>
-          <button type="button" onClick={nextStep} disabled={estadoPartes.length === 0}>Siguiente</button>
+          <button className='btn btn-outline-secondary' type="button" onClick={prevStep}>Anterior</button>
+          <button className='btn btn-outline-primary' type="button" onClick={nextStep} disabled={estadoPartes.length === 0}>Siguiente</button>
           </div>
         </>
       )}
