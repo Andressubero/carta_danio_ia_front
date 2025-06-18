@@ -10,7 +10,6 @@ import MyVehicles from './components/MyVehicles/MyVehicles'
 import VehicleDetail from './components/VehicleDetail/VehicleDetail'
 import VehicleStateForm from './components/VehiclestateForm/VehiclestateForm'
 import MainLayout from './components/Shared/MainLayout'
-import DamageEditor from './components/VehiclestateForm/DamageEditor'
 import './App.css'
 
 function App() {
@@ -53,7 +52,6 @@ function PrivateRoute({ children }) {
       />
       <Route path="/login" element={<UserLogin />} />
       <Route path="/register" element={<UserRegister />} />
-      <Route path="/editor" element={<DamageEditor />} />
     </Routes>
   );
 
