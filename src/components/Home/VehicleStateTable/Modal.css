@@ -10,7 +10,7 @@
 
 .modal-content {
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff !important; /* Forzamos fondo blanco */
@@ -19,11 +19,14 @@
   width: 90%;
   max-width: 800px;
   height: auto;
-  max-height: 80vh;          /* Altura máxima relativa al viewport */
-  overflow-y: auto; 
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   opacity: 1 !important; /* Por si algún estilo global afecta la opacidad */
+}
+
+.modal-content-container {
+    overflow-y: auto; 
+    max-height: 80vh; 
 }
 
 .ai-report-summary {

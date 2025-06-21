@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { useParams } from 'react-router-dom';
 import './DamageForm.css';
 import { SedanParts } from '../../Data/SedanParts.jsx';
-import { useLocation } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { NavigateModal } from '../Modal/NavigateModal.jsx';
 import { HatchbackParts } from '../../Data/HatchbackParts.jsx';
@@ -76,10 +75,8 @@ const VehicleStateForm = () => {
   const [damageDescription, setDamageDescription] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: "0%", left: "0%" });
 
-const location = useLocation();
 
 useEffect(() => {
-  setFirstState(location.state?.from === '/createVehicle')
   const fetchData = async () => {
     try {
       setError(false);
@@ -88,6 +85,12 @@ useEffect(() => {
         method: 'GET',
         credentials: 'include',
       });
+      const isFirstResponse = await fetch(`${apiUrl}/vehicle-state/is-first-state/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const isFirst = isFirstResponse.json()
+      setFirstState(isFirst.isFirst)
       const result = await response.json();
       setData(result);
       const tipo = result?.type?.toLowerCase();
@@ -203,6 +206,56 @@ useEffect(() => {
     }
   };
 
+const ShowDamages = () => {
+  if (!estadoPartes) return null;
+
+  let updatedStates = estadoPartes?.filter(ep =>
+    ep.damages.some(epd => epd.damage_type !== 'SIN_DANO')
+  );
+const handleRemove = (parte) => {
+  const updated = estadoPartes.map((u) => {
+      return u.part_id === parte.part_id
+        ? { ...u, damages: [{ damage_type: "SIN_DANO", description: "Sin daño" }] }
+        : u
+    }
+    )
+  setEstadoPartes(updated);
+};
+
+  return (
+    <div className='p-5'>
+      {updatedStates?.map((updatedState, i) => (
+        <Fragment key={`updatedState-${updatedState?.name}-${i}-title`}>
+          <div className="mb-3">
+            <div className="d-flex justify-content-between align-items-start">
+              <h4 className="text-start fw-bold mb-2">{updatedState?.name}</h4>
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-danger"
+                onClick={() => handleRemove(updatedState)}
+                aria-label="Eliminar parte"
+              >
+                ✕
+              </button>
+            </div>
+            <ul className="list-unstyled ms-3">
+              {updatedState?.damages?.map((damage, j) => (
+                <li
+                  key={`damage-${damage?.damage_type}-${updatedState?.name}-${j}`}
+                  className="text-muted fw-bold fs-5 text-start"
+                >
+                  • {damage?.damage_type?.charAt(0)?.toUpperCase() + damage?.damage_type?.slice(1)?.toLowerCase()}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Fragment>
+      ))}
+    </div>
+  );
+};
+
+
   if (loading || !data) return (
     <div className='m-auto h-80vh d-flex flex-column gap-5 justify-content-center'>
       <h4>Esto puede demorar unos segundos</h4>
@@ -210,7 +263,13 @@ useEffect(() => {
     </div>
   )
 
-  if (error && !result) return <p>Error: {error.message}</p>;
+  if (error && !result) return (
+      <div className='card rounded-5'>
+        <h4>{error.message || 'Hubo un error al obtener los datos, intentalo nuevamente'}</h4>
+        <button onClick={function() { navigate('/home')}} className='btn btn-outline-danger'>Volver a la página principal</button>
+      </div>
+
+  )
 
   return (
     <div className="damage-form" encType="multipart/form-data">
@@ -249,14 +308,24 @@ useEffect(() => {
               className="p-2 border rounded"
             />
           </Form.Group>
-          <button
-            className="btn btn-outline-primary mt-5"
-            type="button"
-            onClick={nextStep}
-            disabled={!date || loading}
-          >
-            Siguiente
-          </button>
+          <div className='w-100 d-flex gap-5 flex-wrap justify-content-center'>
+            <button
+              className="btn btn-outline-secondary mt-5"
+              type="button"
+              onClick={function () {navigate('/home')}}
+              disabled={loading}
+            >
+              Cancelar
+            </button>
+            <button
+              className="btn btn-outline-primary mt-5"
+              type="button"
+              onClick={nextStep}
+              disabled={!date || loading}
+            >
+              Siguiente
+            </button>
+          </div>
         </>
       )}
 
@@ -309,7 +378,7 @@ useEffect(() => {
               </div>
             )}
           </div>
-
+            <ShowDamages />
           {/* <section className="json-preview">
             <h3>JSON generado (solo para debug):</h3>
             <textarea rows="10" value={JSON.stringify(estadoPartes, null, 2)} readOnly />
