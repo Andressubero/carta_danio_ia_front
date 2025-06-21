@@ -213,15 +213,12 @@ const ShowDamages = () => {
     ep.damages.some(epd => epd.damage_type !== 'SIN_DANO')
   );
 const handleRemove = (parte) => {
-  console.log('parte a buscar ', parte)
-  console.log("Antes del cambio ", estadoPartes)
   const updated = estadoPartes.map((u) => {
       return u.part_id === parte.part_id
         ? { ...u, damages: [{ damage_type: "SIN_DANO", description: "Sin daño" }] }
         : u
     }
     )
-    console.log('despues del cambio ', updated)
   setEstadoPartes(updated);
 };
 
