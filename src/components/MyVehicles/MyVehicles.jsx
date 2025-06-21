@@ -61,7 +61,7 @@ const MyVehicles = () => {
       ) : (
         <div className="row g-4">
           {myVehicles.map((vehicle) => (
-            <Card key={vehicle.id} className="mb-3" style={{ width: "18rem" }}>
+            <Card key={vehicle.id} className="mb-3 rounded-5" style={{ width: "18rem" }}>
               <Card.Body>
                 <Card.Title>
                   {vehicle.brand} {vehicle.model}
@@ -85,13 +85,13 @@ const MyVehicles = () => {
               </Card.Body>
               <div className="d-flex flex-row justify-content-center gap-2">
                 <a
-                  className="a-navegar"
+                  className="btn btn-outline-info"
                   onClick={() => navigate("/vehicle/edit/" + vehicle.id)}
                 >
                   Editar
                 </a>
                 <a
-                  className="a-navegar"
+                  className="btn btn-outline-danger"
                   onClick={() => {
                     setVehicleToDelete(vehicle.id);
                     setShowConfirm(true);

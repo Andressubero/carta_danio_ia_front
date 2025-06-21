@@ -1,14 +1,15 @@
-// src/components/shared/Header.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import LogoutButton from '../UserLogout/LogoutButton'; // Creá este componente como lo armamos antes
-import './Layout.css';
+import { useUser } from "../../context/useUser"; 
+import LogoutButton from '../UserLogout/LogoutButton';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
-const Header = ({ username = "Usuario" }) => {
+const Header = () => {
   const [open, setOpen] = useState(false);
-
+  const { getUser } = useUser()
+  const user = getUser();
   // Cierra el menú al hacer click fuera
-  React.useEffect(() => {
+  useEffect(() => {
     if (!open) return;
     function handler(e) {
       if (!e.target.closest('.user-menu')) setOpen(false);
@@ -18,47 +19,49 @@ const Header = ({ username = "Usuario" }) => {
   }, [open]);
 
   return (
-    <header className="main-header">
-      <div className="header-left">
-        <h1 className="logo">Carta de Daños IA🚗</h1>
-      </div>
-      <div className="header-right">
-        <nav className="nav-links">
-          <Link to="/">Inicio</Link>
-        </nav>
-        {/* Menú de usuario */}
-        <div className="user-menu" style={{ position: 'relative', marginLeft: '16px' }}>
-          <button
-            className="user-btn"
-            onClick={() => setOpen(!open)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500 }}
-          >
-            <span role="img" aria-label="user" style={{ marginRight: 6 }}>👤</span>
-            {username}
-          </button>
-          {open && (
-            <div
-              className="user-dropdown"
-              style={{
-                position: 'absolute',
-                right: 0,
-                top: '100%',
-                background: '#fff',
-                border: '1px solid #ddd',
-                borderRadius: 8,
-                boxShadow: '0 4px 12px rgba(0,0,0,0.09)',
-                minWidth: 150,
-                zIndex: 20,
-              }}
+    <Navbar className="py-4 z-3" bg="primary" variant="dark" expand="lg" sticky="top">
+      <Container fluid>
+        <Navbar.Brand as={Link} to="/" className="fw-bold">
+          Carta de Daños IA 🚗
+        </Navbar.Brand>
+
+        <Navbar.Toggle aria-controls="main-navbar" />
+        <Navbar.Collapse id="main-navbar" className="justify-content-between">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/">Inicio</Nav.Link>
+          </Nav>
+
+          {/* Menú de usuario */}
+          <div className="user-menu position-relative ms-3">
+            <button
+              onClick={() => setOpen(!open)}
+              className="btn btn-light d-flex align-items-center"
+              style={{ fontWeight: 500 }}
             >
-              <div style={{ padding: '8px 16px', color: '#666' }}>¡Hola, {username}!</div>
-              <div style={{ borderTop: '1px solid #eee' }}></div>
-              <LogoutButton />
-            </div>
-          )}
-        </div>
-      </div>
-    </header>
+              <span role="img" aria-label="user" className="me-2">👤</span>
+              {user?.username}
+            </button>
+
+            {open && (
+              <div
+                className="bg-white border rounded position-absolute mt-2 shadow-sm"
+                style={{
+                  right: 0,
+                  zIndex: 1050,
+                  minWidth: 200,
+                }}
+              >
+                <div className="px-3 py-2 text-muted">¡Hola, {user?.username}!</div>
+                <hr className="my-1" />
+                <div className="px-3 py-2">
+                  <LogoutButton />
+                </div>
+              </div>
+            )}
+          </div>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

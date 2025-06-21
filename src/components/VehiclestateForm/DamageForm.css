@@ -143,11 +143,6 @@ button {
   margin-top: 10px;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-
 .label-with-tooltip {
   display: flex;
   align-items: center;

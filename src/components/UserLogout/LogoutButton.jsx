@@ -17,7 +17,7 @@ const LogoutButton = () => {
         alert("No se pudo cerrar sesión.");
       }
     } catch (error) {
-      alert("Error al cerrar sesión.");
+      alert(error.message);
     }
   };
 
