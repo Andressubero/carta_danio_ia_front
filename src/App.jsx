@@ -3,6 +3,7 @@ import { useUser } from "./context/useUser";
 import Onboarding from './components/Home/Onboarding'
 import { Routes, Route } from 'react-router-dom'
 import UserRegister from './components/UserRegister/UserRegister'
+import EditPassword from './components/EditPassword/EditPassword'
 import UserLogin from './components/UserLogin/UserLogin'
 import VehicleStateTable from './components/Home/VehicleStateTable/VechicleStateTable'
 import CreateVehicle from './components/CreateVehicle/CreateVehicle'
@@ -43,8 +44,7 @@ function PrivateRoute({ children }) {
         <Route path="/myVehicles" element={<MyVehicles />} />
         <Route path="/vehicle/:id" element={<VehicleDetail />} />
         <Route path="/vehicle/edit/:id" element={<EditVehicle />} />
-        
-
+        <Route path="/user/edit-password" element={<EditPassword />} />
       </Route>
 
       {/* Rutas públicas */}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from "../../context/useUser"; 
 import LogoutButton from '../UserLogout/LogoutButton';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
@@ -7,6 +7,7 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 const Header = () => {
   const [open, setOpen] = useState(false);
   const { getUser } = useUser()
+  const navigate = useNavigate();
   const user = getUser();
   // Cierra el menú al hacer click fuera
   useEffect(() => {
@@ -51,11 +52,11 @@ const Header = () => {
                   minWidth: 200,
                 }}
               >
-                <div className="px-3 py-2 text-muted">¡Hola, {user?.username}!</div>
-                <hr className="my-1" />
-                <div className="px-3 py-2">
+                <div className="px-3 py-2 text-muted p-5">¡Hola, {user?.username}!</div>
+                <button onClick={function(){navigate('/user/edit-password')}} className='btn btn-outline-info border-0 w-100'>
+                  Editar contraseña
+                </button>
                   <LogoutButton />
-                </div>
               </div>
             )}
           </div>
