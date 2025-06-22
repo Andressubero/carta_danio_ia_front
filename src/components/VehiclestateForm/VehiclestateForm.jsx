@@ -89,7 +89,7 @@ useEffect(() => {
         method: 'GET',
         credentials: 'include',
       });
-      const isFirst = isFirstResponse.json()
+      const isFirst = await isFirstResponse.json()
       setFirstState(isFirst.isFirst)
       const result = await response.json();
       setData(result);
@@ -485,6 +485,7 @@ const handleRemove = (parte) => {
               onClick={handleSubmit}
               className="btn btn-outline-primary"
               type="submit"
+              disabled={!estadoPartes.length || (getSidesInvolved().length !==Object.keys(images).length)}
             >
               Crear Estado
             </button>
