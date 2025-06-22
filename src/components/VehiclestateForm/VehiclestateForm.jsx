@@ -147,7 +147,6 @@ useEffect(() => {
     let states = estadoPartes;
 
     if (!isFirstState) {
-      console.log(isFirstState)
       states = estadoPartes.filter(ep => ep.damages.some((d) => d.damage_type !== 'SIN_DANO'));    
     }
 
