@@ -8,10 +8,15 @@ import '../../styles/authLayout.css';
 const validationSchema = Yup.object({
   email: Yup.string().email("Email inválido").required("Email requerido"),
   password: Yup.string()
-    .min(6, "Mínimo 6 caracteres")
+    .max(15, "Máximo 15 caracteres")
+    .matches(/[A-Z]/, "Debe tener al menos una letra mayúscula")
+    .matches(/[a-z]/, "Debe tener al menos una letra minúscula")
+    .matches(/[0-9]/, "Debe tener al menos un número")
+    .matches(/[\W_]/, "Debe tener al menos un carácter especial")
     .required("Contraseña requerida"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden")
+    .max(15, "Máximo 15 caracteres")
     .required("Confirmá tu contraseña"),
 });
 

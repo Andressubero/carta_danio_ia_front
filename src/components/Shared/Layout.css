@@ -131,3 +131,10 @@ body::before {
   display: block;
   margin: 25px auto;
 }
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 12px;
+    width: 95px;
+  }
+}

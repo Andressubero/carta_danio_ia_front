@@ -8,10 +8,10 @@ import { useUser } from "../../context/useUser";
 
 const validationSchema = Yup.object({
   username: Yup.string()
-    .min(3, "Mínimo 3 caracteres")
+    .email("Email inválido")
     .required("Nombre de usuario requerido"),
   password: Yup.string()
-    .min(6, "Mínimo 6 caracteres")
+    .max(15, "Máximo 15 caracteres")
     .required("Contraseña requerida"),
 });
 

@@ -71,3 +71,9 @@
 .btn-view:hover {
   background-color: rgb(65, 57, 190);
 }
+
+.custom-table th,
+.custom-table td {
+  width: 70px;
+  white-space: nowrap;
+}

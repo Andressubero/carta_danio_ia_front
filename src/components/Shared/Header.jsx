@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import LogoutButton from '../UserLogout/LogoutButton'; // Creá este componente como lo armamos antes
 import './Layout.css';
 
-const Header = ({ username = "Usuario" }) => {
+const Header = ({ username }) => {
   const [open, setOpen] = useState(false);
 
   // Cierra el menú al hacer click fuera
@@ -24,7 +24,7 @@ const Header = ({ username = "Usuario" }) => {
       </div>
       <div className="header-right">
         <nav className="nav-links">
-          <Link to="/">Inicio</Link>
+          <Link to="/home">Inicio</Link>
         </nav>
         {/* Menú de usuario */}
         <div className="user-menu" style={{ position: 'relative', marginLeft: '16px' }}>
