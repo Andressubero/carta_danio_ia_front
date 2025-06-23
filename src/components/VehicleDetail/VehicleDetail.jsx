@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {VehicleCard} from '../VehicleCard/VehicleCard'
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/useUser";
+
 
 const VehicleDetail = () => {
+  const { user } = useUser();
   const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL;
   const { id } = useParams();
   const [data, setData] = useState(null);
@@ -40,8 +43,16 @@ const VehicleDetail = () => {
       <div className="bg-white rounded-3 p-4 mx-auto">
         <VehicleCard vehicle={data} />
         <div className='d-flex flex-column gap-2'>     
-          <button onClick={function() { navigate("/vehicle-state/create/" + data.id ,{state: { from: "/vehicleDetail" }})}} className='btn btn-outline-primary'>Nueva Carta de daño</button>
-          <button onClick={function(){navigate("/home")}}  className="btn btn-outline-secondary">Volver al listado</button>
+          {user.role !== 'admin' && (
+            <button
+              onClick={() => navigate("/vehicle-state/create/" + data.id ,{state: { from: "/vehicleDetail" }})}
+              className='btn btn-outline-primary'>
+              Nueva Carta de daño
+            </button>
+          )}
+          <button onClick={function(){navigate("/home")}}  className="btn btn-outline-secondary">
+          Volver al listado
+          </button>
         </div>
       </div>
     </div>
