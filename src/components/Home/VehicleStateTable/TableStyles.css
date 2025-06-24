@@ -4,8 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0;
-  padding: 50px;
+  margin: 0
 }
 
 .table-card {
@@ -18,12 +17,12 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(2px);
   max-height: 90vh;
-  overflow-y: auto;
 }
 
 /* Tabla */
 .custom-table {
   width: 100%;
+  min-width: 940px;
   table-layout: fixed;
   border-collapse: collapse;
   font-size: 0.95rem;

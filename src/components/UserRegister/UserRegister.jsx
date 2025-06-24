@@ -48,7 +48,7 @@ const handleSubmit = async (values, actions) => {
     }
   } catch (error) {
     setSuccess(false);
-    setMessage("Error de conexión con el servidor");
+    setMessage(error.message);
   } finally {
     actions.setSubmitting(false);
   }

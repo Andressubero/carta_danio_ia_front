@@ -15,7 +15,7 @@ const NavigateModal = ({text, comment, buttonText, onClick, state}) => {
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
         shouldCloseOnOverlayClick={false} // Evita cierre al hacer clic fuera
-        className="modal-content"
+        className="modal-content p-3 p-md-5"
         overlayClassName="modal-overlay"
       >
         <h2>{text}</h2>
