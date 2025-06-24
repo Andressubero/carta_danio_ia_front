@@ -40,7 +40,7 @@ const ValidateState = ({initialState, onCancel, id }) => {
   }
 
   return (
-    <div className="p-3 border rounded">
+    <div className="p-3 border-0">
       {/* Radio Buttons en fila */}
       <div className="d-flex gap-3">
         <input type="radio" id="aprobar" name="estado" value="APROBADA" onChange={handleChange} />

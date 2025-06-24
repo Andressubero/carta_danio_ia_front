@@ -32,7 +32,7 @@ const MainLayout = () => {
       <main className="main-scrollable">
         <Outlet />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

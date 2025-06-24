@@ -17,22 +17,13 @@ const LogoutButton = () => {
         alert("No se pudo cerrar sesión.");
       }
     } catch (error) {
-      alert("Error al cerrar sesión.");
+      alert(error.message);
     }
   };
 
   return (
     <button
-      style={{
-        width: "100%",
-        textAlign: "left",
-        padding: "10px 16px",
-        background: "none",
-        border: "none",
-        color: "#c00",
-        cursor: "pointer",
-        fontWeight: 500,
-      }}
+      className="btn btn-outline-danger border-0 w-100"
       onClick={handleLogout}
     >
       🚪 Cerrar sesión

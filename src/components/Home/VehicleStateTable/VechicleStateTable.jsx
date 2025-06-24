@@ -184,21 +184,16 @@ const VehicleStateTable = () => {
               </button>
             </div>
           )}
-
-          <div className="d-flex justify-content-around mt-5">
-            <button
-             className="me-3 btn btn-primary btn-sm"
-              onClick={() => navigate("/createVehicle")}
-            >
-              Registrar Un Vehículo
-            </button>
-            <button
-              className="ms-3 btn btn-primary btn-sm"
-              onClick={() => navigate("/myVehicles")}
-            >
-              Mis Vehículos
-            </button>
-          </div>
+          {user.role !== 'admin' && (
+            <div className="d-flex justify-content-around mt-5"> 
+              <button className="me-3 btn btn-primary btn-sm" onClick={() => navigate("/createVehicle")}> 
+                Registrar Un Vehículo 
+              </button>
+              <button className="ms-3 btn btn-primary btn-sm" onClick={() => navigate("/myVehicles")}              >
+                Mis Vehículos
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <ModalComponent isOpen={isModalOpen} setIsOpen={closeModal}>

@@ -10,10 +10,13 @@ function ModalComponent({ isOpen, setIsOpen, children }) {
       onRequestClose={() => setIsOpen(false)}
       contentLabel="Ejemplo"
       overlayClassName="modal-overlay"
-      className="modal-content"
+      className="modal-content rounded-4"
     >
       <button onClick={() => setIsOpen(false)} className="modal-close-button">✖</button>
-      {children}
+      <br />
+      <div className='w-100 modal-content-container'>
+        {children}
+      </div>
     </Modal>
   );
 }
