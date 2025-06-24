@@ -48,10 +48,7 @@ function PrivateRoute({ children }) {
       </Route>
 
       {/* Rutas públicas */}
-      <Route
-        path="/"
-        element={user ? <Navigate to="/home" replace /> : <Onboarding />}
-      />
+      <Route path="/" element={<Onboarding />}/>
       <Route path="/login" element={<UserLogin />} />
       <Route path="/register" element={<UserRegister />} />
     </Routes>

@@ -4,6 +4,7 @@ import { useUser } from "../../context/useUser";
 import LogoutButton from '../UserLogout/LogoutButton';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
+
 const Header = () => {
   const [open, setOpen] = useState(false);
   const { getUser } = useUser()
