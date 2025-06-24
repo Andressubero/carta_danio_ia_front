@@ -28,11 +28,7 @@ const Header = () => {
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="main-navbar" />
-        <Navbar.Collapse id="main-navbar" className="justify-content-between">
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">Inicio</Nav.Link>
-          </Nav>
-
+        <Navbar.Collapse id="main-navbar" className="justify-content-end">
           {/* Menú de usuario */}
           <div className="user-menu position-relative ms-3">
             <button

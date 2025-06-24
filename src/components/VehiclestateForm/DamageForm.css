@@ -1,7 +1,7 @@
 .damage-form {
   width: 100%;
   max-width: 500px;
-  margin: 30px auto;
+  margin:auto;
   font-family: 'Segoe UI', sans-serif;
   padding: 1.5rem;
   background: #fff;
@@ -49,7 +49,7 @@ input[type="file"] {
 }
 
 .marker {
-  all: unset; /* 🔥 borra todos los estilos por defecto del botón */
+  all: unset;
   width: 15px;
   height: 12px;
   background-color: #e74c3c;
@@ -57,7 +57,7 @@ input[type="file"] {
   border-radius: 50%;
   position: absolute;
   transform: translate(-50%, -50%);
-  z-index: 10;
+  z-index: 2;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);

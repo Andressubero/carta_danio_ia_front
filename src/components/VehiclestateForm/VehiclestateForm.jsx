@@ -360,6 +360,7 @@ const handleRemove = (parte) => {
                 >
                   <option value="ABOLLADURA">Abolladura</option>
                   <option value="RAYON">Rayón</option>
+                  <option value="ROTURA">ROTURA</option>
                   <option value="OTRO">Otro</option>
                   <option value="SIN_DANO">Sin danio</option>
                 </select>

@@ -54,12 +54,12 @@ const MyVehicles = () => {
   };
 
   return (
-    <div className="container d-flex flex-column align-items-center">
+    <div className="container d-flex flex-column align-items-center justify-content-start">
       <h1>Mis Vehículos</h1>
       {myVehicles.length === 0 ? (
         <p className="bold-text">Aún no ha registrado ningun vehiculo</p>
       ) : (
-        <div className="row g-4">
+        <div className="d-flex flex-wrap justify-content-center gap-4">
           {myVehicles.map((vehicle) => (
             <Card key={vehicle.id} className="mb-3 rounded-5" style={{ width: "18rem" }}>
               <Card.Body>
@@ -119,7 +119,7 @@ const MyVehicles = () => {
 
       {showConfirm && (
         <div className="modal-overlay">
-          <div className="modal-content">
+          <div className="modal-content p-3 p-md-5">
             <h5>¿Está seguro que desea eliminar este vehículo?</h5>
             <div className="d-flex justify-content-around mt-3">
               <button

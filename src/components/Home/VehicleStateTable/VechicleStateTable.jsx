@@ -134,6 +134,11 @@ const VehicleStateTable = () => {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    initialState: {
+    pagination: {
+      pageSize: 7, // ← Cantidad de items por página
+    },
+  },
   });
 
   if (isLoading) return <p className="text-light">Cargando datos...</p>;
@@ -163,7 +168,7 @@ const VehicleStateTable = () => {
             </table>
           </div>
           {table.getPageCount() > 1 && (
-            <div className="mt-3 d-flex justify-content-between">
+            <div className="mt-3 d-flex justify-content-end gap-5">
               <button
                 className="btn btn-primary"
                 onClick={() => table.previousPage()}
