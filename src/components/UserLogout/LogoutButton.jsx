@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/useUser"; 
 
 const LogoutButton = () => {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const { setUser } = useUser();
   const handleLogout = async () => {
     const apiUrl = import.meta.env.VITE_RUTA_BACKEND_LOCAL || "";
     try {
@@ -12,6 +14,7 @@ const LogoutButton = () => {
       });
       const data = await response.json();
       if (response.ok && data.message === "Logout exitoso") {
+        setUser(null);
         navigate("/login", { replace: true });
       } else {
         alert("No se pudo cerrar sesión.");

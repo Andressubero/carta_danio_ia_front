@@ -14,6 +14,12 @@ import hatchbackImg from '../../images/hatchback_croquis.png';
 import pickupImg from '../../images/pickup_croquis.png';
 import motorbikeImg from '../../images/motorbike_croquis.png';
 
+function mirrorLeft(leftString) {
+  const value = parseFloat(leftString); // "17.7%" → 17.7
+  const mirrored = 100 - value;
+  return `${mirrored}%`; // → "82.3%"
+}
+
 const croquis = [
   {
     type: 'sedán',
@@ -341,7 +347,7 @@ const handleRemove = (parte) => {
                   type="button"
                   title={p.id}
                   className={`marker ${isSelected ? "selected" : ""}`}
-                  style={{ top: p.top, left: p.left }}
+                  style={{ top: p.top, left: mirrorLeft(p.left)  }}
                   onClick={() => handlePartClick(p)}
                 />
               );
