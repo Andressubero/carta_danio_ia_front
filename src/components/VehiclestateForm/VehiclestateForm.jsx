@@ -14,6 +14,13 @@ import hatchbackImg from '../../images/hatchback_croquis.png';
 import pickupImg from '../../images/pickup_croquis.png';
 import motorbikeImg from '../../images/motorbike_croquis.png';
 
+// eslint-disable-next-line no-unused-vars
+function mirrorLeft(leftString) {
+  const value = parseFloat(leftString); // "17.7%" → 17.7
+  const mirrored = 100 - value;
+  return `${mirrored}%`; // → "82.3%"
+}
+
 const croquis = [
   {
     type: 'sedán',
@@ -257,7 +264,7 @@ const handleRemove = (parte) => {
 
 
   if (loading || !data) return (
-    <div className='m-auto h-80vh d-flex flex-column gap-5 justify-content-center'>
+    <div style={{height:200}} className='m-auto d-flex flex-column gap-5 justify-content-center'>
       <h4>Esto puede demorar unos segundos</h4>
       <Spinner className='m-auto' animation="border" variant="primary" />
     </div>
@@ -341,7 +348,7 @@ const handleRemove = (parte) => {
                   type="button"
                   title={p.id}
                   className={`marker ${isSelected ? "selected" : ""}`}
-                  style={{ top: p.top, left: p.left }}
+                  style={{ top: p.top, left: p.left  }}
                   onClick={() => handlePartClick(p)}
                 />
               );
@@ -486,7 +493,7 @@ const handleRemove = (parte) => {
               onClick={handleSubmit}
               className="btn btn-outline-primary"
               type="submit"
-              disabled={!estadoPartes.length || (getSidesInvolved().length !==Object.keys(images).length)}
+              disabled={!estadoPartes.length || !getSidesInvolved().length || (getSidesInvolved().length !==Object.keys(images).length)}
             >
               Crear Estado
             </button>
