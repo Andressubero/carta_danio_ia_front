@@ -8,8 +8,8 @@ Este repositorio contiene el código de frontend de la aplicación **Carta de Da
 
 ### 2. Clonar el repositorio, desde la interfaz de su IDE o desde la terminal con el siguiente comando:  
 ```
-git clone https://github.com/tu-usuario/tu-repositorio.git
-cd tu-repositorio
+https://github.com/Andressubero/carta_danio_ia_front
+cd carta_danio_ia_front
 ```
 
 ### 3. Instalar las dependencias, con el siguiente comando:
