@@ -493,7 +493,7 @@ const handleRemove = (parte) => {
               onClick={handleSubmit}
               className="btn btn-outline-primary"
               type="submit"
-              disabled={!estadoPartes.length || (getSidesInvolved().length !==Object.keys(images).length)}
+              disabled={!estadoPartes.length || !getSidesInvolved().length || (getSidesInvolved().length !==Object.keys(images).length)}
             >
               Crear Estado
             </button>
