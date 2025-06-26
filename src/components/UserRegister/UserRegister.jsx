@@ -118,7 +118,7 @@ const handleSubmit = async (values, actions) => {
         <></>
       )}
 
-      <p className="aclaracion-text">La contraseña debe tener una mayúscula, una minúscula, un número y un caracter especial.</p>
+      <p className="aclaracion-text">La contraseña deberá tener entre 8 y 15 caracteres, y al menos una mayúscula, una minúscula, un número y un caracter especial.</p>
 
       <a className="a-navegar" onClick={() => navigate("/")}>
         Volver
