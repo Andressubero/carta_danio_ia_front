@@ -264,7 +264,7 @@ const handleRemove = (parte) => {
 
 
   if (loading || !data) return (
-    <div className='m-auto d-flex flex-column gap-5 justify-content-center'>
+    <div style={{height:200}} className='m-auto d-flex flex-column gap-5 justify-content-center'>
       <h4>Esto puede demorar unos segundos</h4>
       <Spinner className='m-auto' animation="border" variant="primary" />
     </div>
