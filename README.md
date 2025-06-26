@@ -25,3 +25,13 @@ npm install
 ```
 npm run dev
 ```
+
+
+## Agregar un nuevo vehículo
+
+1. Se debe añadir el croquis en la carpeta images con un nombre que haga referencia al nuevo tipo
+de vehículo.
+2. Se debe añadir en la carpeta data un archivo con un nombre que referencie al nuevo tipo de vehículo, debe contener las coordenadas en porcentaje en donde debe ubicarse el punto en el nuevo croquis.
+3. Se importa el croquis y los puntos en el archivo VehicleStateForm/VehicleStateForm
+y se añaden al array "croquis" y "puntos" respectivamente. Con eso ya se podrá acceder al 
+nuevo croquis.
