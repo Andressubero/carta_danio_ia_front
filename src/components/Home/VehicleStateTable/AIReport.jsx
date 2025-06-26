@@ -42,7 +42,7 @@ function AIReportSummary({ report }) {
 
       <div className="section">
         <strong>Razones para validar:</strong><br />
-        {validation_reasons}
+        {validation_reasons?.replace(/json/gi, 'reporte')}
       </div>
 
       <div className="section">
