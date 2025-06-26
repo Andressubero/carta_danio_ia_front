@@ -74,3 +74,11 @@ button.btn:hover {
   font-size: 18px;
   margin: 20px;
 }
+
+.aclaracion-text {
+  font-weight: bold;
+  font-size: 11px;
+  text-align: left;
+  margin-top: 15px;
+  font-style: roboto, sans-serif; 
+}
