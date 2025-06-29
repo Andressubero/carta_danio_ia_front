@@ -90,7 +90,7 @@ const VehicleStateTable = () => {
   };
   const fetchData = async () => {
     try {
-      const res = await fetch(`${apiUrl}/vehicle-state/get-all`, {
+      const res = await fetch(`${apiUrl}/vehicle-state/get-all-summary`, {
         method: "GET",
         credentials: "include",
       });
@@ -106,7 +106,7 @@ const VehicleStateTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${apiUrl}/vehicle-state/get-all`, {
+        const res = await fetch(`${apiUrl}/vehicle-state/get-all-summary`, {
           method: "GET",
           credentials: "include",
         });
@@ -204,9 +204,7 @@ const VehicleStateTable = () => {
       <ModalComponent isOpen={isModalOpen} setIsOpen={closeModal}>
         {vehicleStateIdForReport && <AIReport id={vehicleStateIdForReport} />}
         {vehicleStateIdForDetail && (
-          <VehicleStateSummary
-            data={data?.find((vs) => vs.id === vehicleStateIdForDetail)}
-          />
+          <VehicleStateSummary id={vehicleStateIdForDetail} />
         )}
         {vehicleStateIdForValidate && (
           <ValidateState
