@@ -90,7 +90,7 @@ const VehicleStateTable = () => {
   };
   const fetchData = async () => {
     try {
-      const res = await fetch(`${apiUrl}/vehicle-state/get-all`, {
+      const res = await fetch(`${apiUrl}/vehicle-state/get-all-summary`, {
         method: "GET",
         credentials: "include",
       });
@@ -106,7 +106,7 @@ const VehicleStateTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${apiUrl}/vehicle-state/get-all`, {
+        const res = await fetch(`${apiUrl}/vehicle-state/get-all-summary`, {
           method: "GET",
           credentials: "include",
         });
