@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { API_URL } from '../../../config';
 import './VehicleStateSummary.css';
 
@@ -5,7 +6,36 @@ const formatValidationReasons = (input) => {
   return [...new Set(input.split(",").map(item => item.trim()))];
 };
 
-function VehicleStateSummary({ data }) {
+function VehicleStateSummary({ id }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(false);
+
+  const getSummaryById = async () => {
+    if (!id) return;
+    try {
+      setError(false);
+      const res = await fetch(`${API_URL}/vehicle-state/get-by-id/${id}`, {
+        method: "GET",
+        credentials: "include",
+      });
+      if (res.status !== 200) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const json = await res.json();
+      setData(json);
+    } catch (e) {
+      console.error(e);
+      setError(true);
+    }
+  };
+
+  useEffect(() => {
+    getSummaryById();
+  }, [id]);
+
+  if (error) return <p>Error al cargar los datos.</p>;
+  if (!data) return <p>Cargando...</p>;
+
   const {
     vehicle_brand,
     vehicle_model,
@@ -29,11 +59,11 @@ function VehicleStateSummary({ data }) {
         {validation_reasons && (
           <>
             <p><strong>Motivos de validación:</strong></p>
-            <p>
-              <ul>
-                {formatValidationReasons(validation_reasons)?.map((vr)=> (<li>{vr}</li>))}            
-              </ul>
-            </p>  
+            <ul>
+              {formatValidationReasons(validation_reasons)?.map((vr, index) => (
+                <li key={index}>{vr}</li>
+              ))}
+            </ul>
           </>
         )}
       </div>
@@ -44,17 +74,17 @@ function VehicleStateSummary({ data }) {
           {parts_state.map((part) => (
             <div key={part.id} className="part-block">
               <p><strong>Parte:</strong> {part.vehicle_part_name || 'Sin nombre'}</p>
-                {part.image ? (
+              {part.image ? (
                 <div style={{ width: '100%', margin: '1rem 0' }}>
-                    <img
+                  <img
                     src={`${API_URL}/${part.image.replace(/\\/g, '/')}`}
                     alt={`Imagen de ${part.vehicle_part_name}`}
                     style={{ width: '100%', height: 'auto', borderRadius: '8px', objectFit: 'cover' }}
-                    />
+                  />
                 </div>
-                ) : (
+              ) : (
                 <p><strong>Imagen:</strong> No disponible</p>
-                )}
+              )}
               <p><strong>Fecha:</strong> {part.creation_date}</p>
 
               {part.damages?.length > 0 ? (

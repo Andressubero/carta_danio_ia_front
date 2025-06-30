@@ -204,9 +204,7 @@ const VehicleStateTable = () => {
       <ModalComponent isOpen={isModalOpen} setIsOpen={closeModal}>
         {vehicleStateIdForReport && <AIReport id={vehicleStateIdForReport} />}
         {vehicleStateIdForDetail && (
-          <VehicleStateSummary
-            data={data?.find((vs) => vs.id === vehicleStateIdForDetail)}
-          />
+          <VehicleStateSummary id={vehicleStateIdForDetail} />
         )}
         {vehicleStateIdForValidate && (
           <ValidateState
